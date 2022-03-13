@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Alert,
+  Modal,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState, useEffect } from "react";
@@ -15,7 +15,7 @@ import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import Button from "../components/button/button";
 
-const EditScreen = ({ navigation, route }) => {
+const ViewInfo = ({ navigation, route }) => {
   console.log("====================================");
   console.log("route data ", route?.params?.item);
   console.log("====================================");
@@ -25,6 +25,8 @@ const EditScreen = ({ navigation, route }) => {
 
   const setAllData = () => {
     var data = route?.params?.item;
+    setgroomPhone(data?.groomPhone);
+    setBridephone(data?.bridePhone);
     setInvoice(data?.invoice);
     setbride(data?.brideNamr);
     setgroom(data?.groomName);
@@ -89,12 +91,17 @@ const EditScreen = ({ navigation, route }) => {
     setphotoMoringVenue(data?.photoMorningVenue);
     setphotoEveningVenue(data?.photoEveingVenue);
     setvgEveningTime(data?.VideoGraphyEveningTime);
+    setvgEveningTime(data?.VideoGraphyEveningTime);
+    setCollectionFlowerOutfitDate(data?.collectionOutfitDate);
+    setCollectionFlowerDate(data?.collectionFlowerDate);
   };
   const [isloading, setisloading] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
+  const [showImageModal, setshowImageModal] = useState(false);
+  const [tempImage, settempImage] = useState("");
 
   const [invoice, setInvoice] = useState("");
   const [bride, setbride] = useState("");
@@ -187,256 +194,6 @@ const EditScreen = ({ navigation, route }) => {
   const [showWeddingDate, setshowWeddingDate] = useState(false);
   const [showRemarksDate, setshowRemarksDate] = useState(false);
 
-  const uploadImage = async (uri, path) => {
-    try {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      const ref = firebase.storage().ref(path);
-      const task = ref.put(blob);
-      return new Promise((resolve, reject) => {
-        task.on(
-          "state_changed",
-          (taskSnapshot) => {
-            console.log(
-              `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`
-            );
-          },
-          (err) => {
-            reject(err);
-          },
-          async () => {
-            const url = await task.snapshot.ref.getDownloadURL();
-            resolve(url);
-            return url;
-          }
-        );
-      });
-    } catch (err) {
-      console.log("uploadImage error: " + err);
-    }
-  };
-  const uploadInformation = async () => {
-    var data = route?.params?.item;
-    var first_1 = "",
-      first_2 = "",
-      first_3 = "",
-      first_4 = "",
-      first_5 = "",
-      first_6 = "",
-      first_7 = "",
-      first_8 = "",
-      first_9 = "",
-      url = "";
-    if (!invoice) {
-      alert("please enter invoice number ");
-    } else {
-      setisloading(true);
-      if (image?.uri?.includes("?alt=media")) {
-        url = image.uri;
-      } else if (!image?.uri) {
-        url: "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        url = await uploadImage(image.uri, "userData/" + ref);
-      }
-
-      if (firstImage1?.uri?.includes("?alt=media")) {
-        first_1 = firstImage1;
-      } else if (!firstImage1?.uri) {
-        first_1 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_1 = await uploadImage(firstImage1.uri, "userData/" + ref);
-      }
-      if (firstImage2?.uri?.includes("?alt=media")) {
-        first_2 = firstImage2;
-      } else if (!firstImage2?.uri) {
-        first_2 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_3 = await uploadImage(firstImage2.uri, "userData/" + ref);
-      }
-      if (firstImage3?.uri?.includes("?alt=media")) {
-        first_3 = firstImage3;
-      } else if (!firstImage3?.uri) {
-        first_3 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_3 = await uploadImage(firstImage3.uri, "userData/" + ref);
-      }
-      if (firstImage4?.uri?.includes("?alt=media")) {
-        first_4 = firstImage4;
-      } else if (!firstImage4?.uri) {
-        first_4 = firstImage4;
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_4 = await uploadImage(firstImage4.uri, "userData/" + ref);
-      }
-      if (firstImage5?.uri?.includes("?alt=media")) {
-        first_5 = firstImage5;
-      } else if (!firstImage5?.uri) {
-        first_5 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_5 = await uploadImage(firstImage5.uri, "userData/" + ref);
-      }
-      if (firstImage6?.uri?.includes("?alt=media")) {
-        first_6 = firstImage6;
-      } else if (!firstImage6?.uri) {
-        first_6 = firstImage6;
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_6 = await uploadImage(firstImage6.uri, "userData/" + ref);
-      }
-      if (firstImage7?.uri?.includes("?alt=media")) {
-        first_7 = firstImage7;
-      } else if (!firstImage7?.uri) {
-        first_7 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_7 = await uploadImage(firstImage7.uri, "userData/" + ref);
-      }
-      if (firstImage8?.uri?.includes("?alt=media")) {
-        first_8 = firstImage8;
-      } else if (!firstImage8?.uri) {
-        first_8 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_8 = await uploadImage(firstImage8.uri, "userData/" + ref);
-      }
-      if (firstImage9?.uri?.includes("?alt=media")) {
-        first_9 = firstImage9;
-      }
-      if (!firstImage9?.uri) {
-        first_9 = "";
-      } else {
-        const ref = firebase.firestore().collection("userData").doc().id;
-        first_9 = await uploadImage(firstImage9.uri, "userData/" + ref);
-      }
-      console.log(url);
-      var id = moment().format("YYY-MM-DD-HH:mm:ss");
-      await firebase
-        .firestore()
-        .collection("userData")
-        .doc(data.id)
-        .set({
-          id: id,
-          image: url,
-          groomName: groom,
-          brideNamr: bride,
-          weddingDate: weddingDate,
-          invoice: invoice,
-          todayDate: moment().format("YYYY-MM-DD"),
-          firstImage_1: first_1,
-          firstImage_2: first_2,
-          firstImage_3: first_3,
-          firstImage_4: first_4,
-          firstImage_5: first_5,
-          firstImage_6: first_6,
-          firstImage_7: first_7,
-          firstImage_8: first_8,
-          firstImage_9: first_9,
-
-          remarks1: remark1,
-          remarks2: remark2,
-          remarks3: remark3,
-          remarks4: remark4,
-          remarks5: remark5,
-          remarks6: remark6,
-          remarks7: remark7,
-          remarks8: remark8,
-
-          veil: veil,
-          camcom: camCom,
-          hairPeace: hairPeace,
-          earRing: earRing,
-          flowerDescription: flowerDes,
-          description1: thirdDes1,
-          description2: thirdDes2,
-          description3: thirdDes3,
-
-          MUAName: muaName,
-          moringTime: moringTime,
-          venueAddress: venueAddress,
-          afterNoonSTartTime: afterNoonStartTime,
-          readyTime: readyTime,
-          venue: afterNoonVenu,
-          photoStartTime: photoStartTime,
-          photoEnDTime: photoEndTime,
-          photoMorningVenue: photoMoringVenue,
-          photoEveingVenue: photoEveningVenue,
-
-          VideoGrapherName: videographerName,
-          VideoGrapherStartTime: vgStartTime,
-          VideoGrapherEndTime: vgEndTime,
-          VideoGrapherEveningVenue: vgEveningVenue,
-          VideoGrapherMorningVenue: vgMorningVenue,
-          VideoGrapherTotalTime: vgHours,
-        });
-      setisloading(false);
-      navigation.goBack();
-    }
-  };
-  const changeWeddingDate = (e, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setweddingDate(currentDate);
-    setshowWeddingDate(false);
-  };
-  const secondAppointmentRemarksDate = (e, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setremarksDate(currentDate);
-    setshowRemarksDate(false);
-  };
-  const pickImage = async (setItem) => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setItem(result);
-      console.log("====================================");
-      console.log(result);
-      console.log("====================================");
-      // uploadImage(result.uri, "test-image")
-      //   .then(() => {
-      //     setItem(result);
-      //     console.log("it work");
-      //   })
-      //   .catch((error) => {
-      //     console.log("it does not work");
-      //     console.error(error);
-      //   });
-    }
-  };
-  const onChange = (e, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-  };
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-  const showDatepicker = () => {
-    showMode("date");
-  };
-  const fun = () => {
-    var da = date.time;
-    var res = date.toISOString().slice(0, 10).replace(/-/g, "");
-    var d = date.toLocaleDateString();
-    var d1 = moment(date).format("Do MMM YYYY");
-    Alert.alert(d1, "My Alert Msg", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-  };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -454,31 +211,48 @@ const EditScreen = ({ navigation, route }) => {
             setval={setInvoice}
             label="Enter Invoice Number"
             title="invoice "
+            editable={false}
           />
           <TextInputCustomize
             val={groom}
             setval={setgroom}
             label="Enter groom name"
             title="Groom name "
+            editable={false}
           />
           <TextInputCustomize
             val={bride}
             setval={setbride}
             label="Enter bride name"
             title="bride name "
+            editable={false}
           />
-          {/* <TouchableOpacity disabled={true}>
-            <Text style={styles.input}>
-              Today date {moment().format("YYYY-MM-DD")}
-            </Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity onPress={() => setshowWeddingDate(true)}>
+          <TextInputCustomize
+            val={bridephone}
+            setval={setBridephone}
+            label="Enter bride Phone Number"
+            title="bride Phone Number"
+            type="phone-pad"
+            editable={false}
+          />
+          <TextInputCustomize
+            val={groomPhone}
+            setval={setgroomPhone}
+            label="Enter groom Phone number"
+            title="groom Phone Number "
+            type="phone-pad"
+            editable={false}
+          />
+          <TouchableOpacity>
             <Text style={styles.input}>
               Wedding date {moment(weddingDate).format("YYYY-MM-DD")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setImage)}
+            onPress={() => {
+              settempImage(image.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -493,32 +267,15 @@ const EditScreen = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-
-          {showWeddingDate && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              display="default"
-              onChange={changeWeddingDate}
-            />
-          )}
-
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              display="default"
-              onChange={() => onChange(e, d)}
-            />
-          )}
           <Text style={{ ...styles.headingText, paddingVertical: 20 }}>
             outfit Reserved
           </Text>
           <View style={styles.allimageContainer}>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage1)}
+              onPress={() => {
+                settempImage(firstImage1.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage1 ? (
@@ -534,7 +291,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage2)}
+              onPress={() => {
+                settempImage(firstImage2.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage2 ? (
@@ -550,7 +310,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage3)}
+              onPress={() => {
+                settempImage(firstImage3.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage3 ? (
@@ -566,7 +329,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage4)}
+              onPress={() => {
+                settempImage(firstImage4.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage4 ? (
@@ -582,7 +348,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage5)}
+              onPress={() => {
+                settempImage(firstImage5.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage5 ? (
@@ -598,7 +367,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage6)}
+              onPress={() => {
+                settempImage(firstImage6.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage6 ? (
@@ -614,7 +386,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage7)}
+              onPress={() => {
+                settempImage(firstImage7.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage7 ? (
@@ -630,7 +405,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage8)}
+              onPress={() => {
+                settempImage(firstImage8.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage8 ? (
@@ -646,7 +424,10 @@ const EditScreen = ({ navigation, route }) => {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => pickImage(setfirstImage9)}
+              onPress={() => {
+                settempImage(firstImage9.uri);
+                setshowImageModal(true);
+              }}
               style={styles.firstAppointmentIMageBox}
             >
               {firstImage9 ? (
@@ -667,7 +448,10 @@ const EditScreen = ({ navigation, route }) => {
           <Text style={styles.headingText}>2nd appointment</Text>
 
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage1)}
+            onPress={() => {
+              settempImage(secondAppointmentImage1.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -686,7 +470,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage2)}
+            onPress={() => {
+              settempImage(secondAppointmentImage2.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -705,7 +492,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage3)}
+            onPress={() => {
+              settempImage(secondAppointmentImage3.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -724,7 +514,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage4)}
+            onPress={() => {
+              settempImage(secondAppointmentImage4.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -744,7 +537,10 @@ const EditScreen = ({ navigation, route }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage5)}
+            onPress={() => {
+              settempImage(secondAppointmentImage5.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -763,7 +559,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage6)}
+            onPress={() => {
+              settempImage(secondAppointmentImage6.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -782,7 +581,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage7)}
+            onPress={() => {
+              settempImage(secondAppointmentImage7.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -801,7 +603,10 @@ const EditScreen = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => pickImage(setsecondAppointmentImage8)}
+            onPress={() => {
+              settempImage(secondAppointmentImage8.uri);
+              setshowImageModal(true);
+            }}
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>
@@ -824,54 +629,57 @@ const EditScreen = ({ navigation, route }) => {
             setval={setremark1}
             label="Enter Remarks"
             title="Remarks1 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark2}
             setval={setremark2}
             label="Enter Remarks"
             title="Remarks2"
+            editable={false}
           />
           <TextInputCustomize
             val={remark3}
             setval={setremark3}
             label="Enter Remarks"
             title="Remarks3 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark4}
             setval={setremark4}
             label="Enter Remarks"
             title="Remarks4 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark5}
             setval={setremark5}
             label="Enter Remarks"
             title="Remarks5 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark6}
             setval={setremark6}
             label="Enter Remarks"
             title="Remarks6 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark7}
             setval={setremark7}
             label="Enter Remarks"
             title="Remarks7 "
+            editable={false}
           />
           <TextInputCustomize
             val={remark8}
             setval={setremark8}
             label="Enter Remarks"
             title="Remarks8 "
+            editable={false}
           />
-          {/* <TouchableOpacity onPress={() => setshowRemarksDate(true)}>
-              <Text style={styles.input}>
-                completed date {moment(remarksDate).format("YYYY-MM-DD")}
-              </Text>
-            </TouchableOpacity> */}
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
@@ -881,30 +689,31 @@ const EditScreen = ({ navigation, route }) => {
             setval={setVeil}
             label="Enter Veil"
             title="Veil "
+            editable={false}
           />
           <TextInputCustomize
             val={camCom}
             setval={setcamCom}
             label="Enter camcom"
             title="Camcom"
+            editable={false}
           />
           <TextInputCustomize
             val={hairPeace}
             setval={setHairPeace}
             label="Enter hair peace"
             title="hair peace  "
+            editable={false}
           />
           <TextInputCustomize
             val={earRing}
             setval={setEarRing}
             label="Enter Ear Ring"
             title="ear Ring "
+            editable={false}
           />
 
-          <TouchableOpacity
-            onPress={() => pickImage(setthirdAppointment1)}
-            style={styles.imageContainer}
-          >
+          <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Banquet</Text>
             {thirdAppointment1 ? (
               <Image
@@ -923,17 +732,16 @@ const EditScreen = ({ navigation, route }) => {
             setval={setflowerDes}
             label="Enter flower Des"
             title="flower Description "
+            editable={false}
           />
           <TextInputCustomize
             val={thirdDes1}
             setval={setthirdDes1}
             label="Enter description"
             title="description "
+            editable={false}
           />
-          <TouchableOpacity
-            onPress={() => pickImage(setthirdAppointment2)}
-            style={styles.imageContainer}
-          >
+          <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
             {thirdAppointment2 ? (
               <Image
@@ -947,10 +755,7 @@ const EditScreen = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => pickImage(setthirdAppointment3)}
-            style={styles.imageContainer}
-          >
+          <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
             {thirdAppointment3 ? (
               <Image
@@ -964,10 +769,7 @@ const EditScreen = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => pickImage(setthirdAppointment4)}
-            style={styles.imageContainer}
-          >
+          <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
             {thirdAppointment4 ? (
               <Image
@@ -981,10 +783,7 @@ const EditScreen = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => pickImage(setthirdAppointment5)}
-            style={styles.imageContainer}
-          >
+          <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>
               Wedding car design
             </Text>
@@ -1005,19 +804,15 @@ const EditScreen = ({ navigation, route }) => {
             setval={setthirdDes1}
             label="Enter description"
             title="description "
+            editable={false}
           />
           <TextInputCustomize
             val={thirdDes3}
             setval={setthirdDes1}
             label="Enter Remarks"
             title="description "
+            editable={false}
           />
-
-          {/* <TouchableOpacity onPress={() => setshowRemarksDate(true)}>
-              <Text style={styles.input}>
-                completed date {moment(remarksDate).format("YYYY-MM-DD")}
-              </Text>
-            </TouchableOpacity> */}
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>4rd appointment Photography</Text>
@@ -1027,24 +822,28 @@ const EditScreen = ({ navigation, route }) => {
             setval={setmuaName}
             label="Enter MUA NAME"
             title="MUA NAME "
+            editable={false}
           />
           <TextInputCustomize
             val={moringTime}
             setval={setMoringTime}
             label="Enter Moring TIme"
             title="MoringTime"
+            editable={false}
           />
           <TextInputCustomize
             val={venueAddress}
             setval={setvenueAddress}
             label="Venue Address"
             title="venue address  "
+            editable={false}
           />
           <TextInputCustomize
             val={afterNoonStartTime}
             setval={setafterNoonStartTime}
             label="Enter time"
             title="after Noon Start Time "
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1052,12 +851,14 @@ const EditScreen = ({ navigation, route }) => {
             setval={setreadyTime}
             label="ready time "
             title="ready time "
+            editable={false}
           />
           <TextInputCustomize
             val={afterNoonVenu}
             setval={setafterNoonVenu}
             label="Enter venue"
             title="Venue "
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1065,6 +866,7 @@ const EditScreen = ({ navigation, route }) => {
             setval={setphotgrapherName}
             label="name"
             title=" photgrapher Name"
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1072,6 +874,7 @@ const EditScreen = ({ navigation, route }) => {
             setval={setphotoStartTime}
             label="time"
             title=" photo start time "
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1079,6 +882,7 @@ const EditScreen = ({ navigation, route }) => {
             setval={setphotoEndTime}
             label="time"
             title=" photo end time  "
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1086,6 +890,7 @@ const EditScreen = ({ navigation, route }) => {
             setval={setphotoMoringVenue}
             label="time"
             title="photo  Moring Venue "
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1093,6 +898,7 @@ const EditScreen = ({ navigation, route }) => {
             setval={setphotoEveningVenue}
             label="time"
             title="photo  Evening Venue "
+            editable={false}
           />
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
@@ -1103,18 +909,21 @@ const EditScreen = ({ navigation, route }) => {
             setval={setvideographerName}
             label="Enter VideoGrapher Name"
             title="VideoGrapher Name"
+            editable={false}
           />
           <TextInputCustomize
             val={vgStartTime}
             setval={setvgStartTime}
             label="VideoGraphy start Time"
             title="VideoGraphy start Time"
+            editable={false}
           />
           <TextInputCustomize
             val={vgEndTime}
             setval={vgEndTime}
             label="VideoGraphy end  Time"
             title="VideoGraphy end Time"
+            editable={false}
           />
 
           <TextInputCustomize
@@ -1122,18 +931,21 @@ const EditScreen = ({ navigation, route }) => {
             setval={vgEveningVenue}
             label="VideoGraphy evening venue "
             title="VideoGraphy evening venue "
+            editable={false}
           />
           <TextInputCustomize
             val={vgMorningVenue}
             setval={setvgMorningVenue}
             label="VideoGraphy moring venue "
             title="VideoGraphy moring venue "
+            editable={false}
           />
           <TextInputCustomize
             val={vgMorningVenue}
             setval={setvgMorningVenue}
             label="VideoGraphy moring venue"
             title="VideoGraphy moring venue"
+            editable={false}
           />
           <TextInputCustomize
             val={vgHours}
@@ -1141,19 +953,37 @@ const EditScreen = ({ navigation, route }) => {
             label="VideoGraphy hours"
             title="VideoGraphy hours"
             type="number-pad"
+            editable={false}
           />
         </View>
         <Button
           disabled={isloading}
-          label={"Save "}
-          onpress={() => uploadInformation()}
+          label={"Go Back "}
+          onpress={() => navigation.goBack()}
         />
       </ScrollView>
+      <Modal
+        style={{ margin: 0, alignItems: "center" }}
+        visible={showImageModal}
+      >
+        <View style={styles.modalView}>
+          <TouchableOpacity onPress={() => setshowImageModal(false)}>
+            {tempImage ? (
+              <Image source={{ uri: tempImage }} style={styles.modalImage} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.modalImage}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-export default EditScreen;
+export default ViewInfo;
 
 const styles = StyleSheet.create({
   conatiner: {
@@ -1213,5 +1043,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 10,
+  },
+  modalView: {
+    height: "100%",
+    backgroundColor: "gray",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+
+  modalImage: {
+    width: 300,
+    height: 300,
+    borderRadius: 30,
+    resizeMode: "cover",
   },
 });

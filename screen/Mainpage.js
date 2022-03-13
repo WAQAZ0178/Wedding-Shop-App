@@ -37,27 +37,30 @@ const Mainpage = ({ navigation }) => {
   };
   const renderItem = (item) => {
     return (
-      <View style={styles.item}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("ViewInfo", { item: item })}
+        style={styles.item}
+      >
         <Text style={styles.itemName}>{item.groomName}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate("EditScreen", { item: item })}
             style={{ ...styles.itemButton }}
           >
-            <Text>Edit</Text>
+            <Text style={{ color: "white" }}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => deleteItem(item)}
-            style={{ ...styles.itemButton }}
+            style={{ ...styles.itemButton, backgroundColor: "#b30000" }}
           >
-            <Text>Delete</Text>
+            <Text style={{ color: "white" }}>Delete</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
-    <View style={{ backgroundColor: "#A0AED8", flex: 1 }}>
+    <View style={{ backgroundColor: "#e0f0ea", flex: 1 }}>
       <FlatList
         contentContainerStyle={{ marginTop: 30 }}
         data={user}
@@ -102,21 +105,29 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   item: {
-    width: 350,
-    backgroundColor: "gray",
+    width: 340,
+    backgroundColor: "#f7f7f7",
     height: 80,
-    borderRadius: 20,
+    borderRadius: 10,
     flexDirection: "row",
     marginVertical: 10,
     alignSelf: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
   },
   itemButton: {
     width: 90,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: "#313d41",
     marginHorizontal: 5,
     borderRadius: 10,
   },
@@ -128,7 +139,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     paddingLeft: 20,
-    width: 100,
+    width: 80,
     fontSize: 15,
     color: "black",
     textAlign: "left",

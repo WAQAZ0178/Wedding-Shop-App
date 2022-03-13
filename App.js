@@ -10,6 +10,7 @@ import Form from "./screen/Form";
 import firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
 import EditScreen from "./screen/editScreen";
+import ViewInfo from "./screen/ViewInfo";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="Mainpage"
           component={Mainpage}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ViewInfo"
+          component={ViewInfo}
         />
         <Stack.Screen
           options={{ headerShown: false }}

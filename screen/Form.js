@@ -20,6 +20,8 @@ const Form = ({ navigation }) => {
   const [pickerDates, setPickerDates] = React.useState({
     wedding_date: moment().format("lll"),
     mor_date: moment().format("lll"),
+    collectionOutfit: moment().format("lll"),
+    collectionflowerDate: moment().format("lll"),
   });
 
   const [timePicker, setTimePicker] = React.useState({
@@ -31,6 +33,7 @@ const Form = ({ navigation }) => {
 
     fifthVGStartTime: moment().format("HH:mm:ss"),
     fifthVGEndTime: moment().format("HH:mm:ss"),
+    fifthVGEveningTime: moment().format("HH:mm:ss"),
   });
   const [option, setOption] = useState("wedding_date");
   const [timeOption, settimeOption] = useState("fifthVGEndTime");
@@ -44,7 +47,8 @@ const Form = ({ navigation }) => {
   const [bride, setbride] = useState("");
   const [groom, setgroom] = useState("");
   const [weddingDate, setweddingDate] = useState(new Date());
-  const [phone, setphone] = useState("");
+  const [bridephone, setBridephone] = useState("");
+  const [groomPhone, setgroomPhone] = useState("");
 
   /////////////////////////////////first
   const [firstImage1, setfirstImage1] = useState("");
@@ -93,6 +97,12 @@ const Form = ({ navigation }) => {
   const [thirdDes3, setthirdDes3] = useState("");
   const [thirdDes4, setthirdDes4] = useState("");
   const [thirdDes5, setthirdDes5] = useState("");
+  const [collectionFlowerDate, setCollectionFlowerDate] = useState(
+    moment().format("L")
+  );
+  const [collectionFlowerOutfitDate, setCollectionFlowerOutfitDate] = useState(
+    moment().format("L")
+  );
 
   //////////////////////////////////////4th appointment
   const [muaName, setmuaName] = useState("");
@@ -117,6 +127,7 @@ const Form = ({ navigation }) => {
   const [vgMorningVenue, setvgMorningVenue] = useState("");
   const [vgEveningVenue, setvgEveningVenue] = useState("");
   const [vgHours, setvgHours] = useState("");
+  const [vgEveningTime, setvgEveningTime] = useState("");
 
   ///////////////////////////// show date picker
   const [showWeddingDate, setshowWeddingDate] = useState(false);
@@ -218,6 +229,8 @@ const Form = ({ navigation }) => {
           brideNamr: bride,
           weddingDate: weddingDate,
           invoice: invoice,
+          bridePhone: bridephone,
+          groomPhone: groomPhone,
           todayDate: moment().format("YYYY-MM-DD"),
           firstImage_1: first_1,
           firstImage_2: first_2,
@@ -240,6 +253,8 @@ const Form = ({ navigation }) => {
 
           veil: veil,
           camcom: camCom,
+          collectionFlowerDate: collectionFlowerDate,
+          collectionOutfitDate: collectionFlowerOutfitDate,
           hairPeace: hairPeace,
           earRing: earRing,
           flowerDescription: flowerDes,
@@ -264,6 +279,7 @@ const Form = ({ navigation }) => {
           VideoGrapherEveningVenue: vgEveningVenue,
           VideoGrapherMorningVenue: vgMorningVenue,
           VideoGrapherTotalTime: vgHours,
+          VideoGraphyEveningTime: vgEveningTime,
         });
       setisloading(false);
       navigation.goBack();
@@ -280,19 +296,21 @@ const Form = ({ navigation }) => {
     console.log("current time", currentDate);
     console.log("====================================");
     if (timeOption == "fouthMoringTime") {
-      setMoringTime(moment().format("HH:mm:ss"));
+      setMoringTime(moment().format("LT"));
     } else if (timeOption == "fouthReadyTime") {
-      setreadyTime(moment().format("HH:mm:ss"));
+      setreadyTime(moment(currentDate).format("LT"));
     } else if (timeOption == "foutafterNoonStartTime") {
-      setafterNoonStartTime(moment().format("HH:mm:ss"));
+      setafterNoonStartTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fouthPhotoStartTime") {
-      setphotoStartTime(moment().format("HH:mm:ss"));
+      setphotoStartTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fouthPhotoEndTime") {
-      setphotoEndTime(moment().format("HH:mm:ss"));
+      setphotoEndTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fifthVGStartTime") {
-      setvgStartTime(moment().format("HH:mm:ss"));
+      setvgStartTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fifthVGEndTime") {
-      setvgEndTime(moment().format("HH:mm:ss"));
+      setvgEndTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fifthVGEveningTime") {
+      setvgEndTime(moment(currentDate).format("LT"));
     }
   };
 
@@ -326,6 +344,14 @@ const Form = ({ navigation }) => {
       ...pickerDates,
       [option]: moment(currentDate).format("lll"),
     });
+
+    if (option == "wedding_date") {
+      setweddingDate(moment(currentDate).format("L"));
+    } else if (option == "collectionOutfit") {
+      setCollectionFlowerOutfitDate(moment(currentDate).format("L"));
+    } else if (option == "collectionflowerDate") {
+      setCollectionFlowerDate(moment(currentDate).format("L"));
+    }
   };
   const showMode = (currentMode) => {
     setShow(true);
@@ -361,6 +387,21 @@ const Form = ({ navigation }) => {
             label="Enter bride name"
             title="bride name "
           />
+          <TextInputCustomize
+            val={bridephone}
+            setval={setBridephone}
+            label="Enter bride Phone Number"
+            title="bride Phone Number"
+            type="phone-pad"
+          />
+          <TextInputCustomize
+            val={groomPhone}
+            setval={setgroomPhone}
+            label="Enter groom Phone number"
+            title="groom Phone Number "
+            type="phone-pad"
+          />
+
           <TouchableOpacity disabled={true}>
             <Text style={styles.input}>
               Today date {moment().format("YYYY-MM-DD")}
@@ -766,14 +807,38 @@ const Form = ({ navigation }) => {
             label="Enter Remarks"
             title="Remarks8 "
           />
-          {/* <TouchableOpacity onPress={() => setshowRemarksDate(true)}>
-            <Text style={styles.input}>
-              completed date {moment(remarksDate).format("YYYY-MM-DD")}
-            </Text>
-          </TouchableOpacity> */}
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
+
+          <TouchableOpacity
+            onPress={() => {
+              setShow(true);
+              setOption("collectionOutfit");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerOutfitDate}
+              setval={setCollectionFlowerOutfitDate}
+              label="Select Collection outfit Date"
+              title="Select Collection outfit Date"
+              editable={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setShow(true);
+              setOption("collectionflowerDate");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerDate}
+              setval={setCollectionFlowerDate}
+              label="Select Collection flower  Date"
+              title="Select Collection flower Date"
+              editable={false}
+            />
+          </TouchableOpacity>
 
           <TextInputCustomize
             val={veil}
@@ -899,6 +964,7 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
+
           <TextInputCustomize
             val={thirdDes2}
             setval={setthirdDes1}
@@ -911,12 +977,6 @@ const Form = ({ navigation }) => {
             label="Enter Remarks"
             title="description "
           />
-
-          {/* <TouchableOpacity onPress={() => setshowRemarksDate(true)}>
-            <Text style={styles.input}>
-              completed date {moment(remarksDate).format("YYYY-MM-DD")}
-            </Text>
-          </TouchableOpacity> */}
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>4rd appointment Photography</Text>
@@ -1070,6 +1130,20 @@ const Form = ({ navigation }) => {
               setval={vgEndTime}
               label="VideoGraphy end  Time"
               title="VideoGraphy end Time"
+              editable={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("fifthVGEveningTime");
+            }}
+          >
+            <TextInputCustomize
+              val={vgEveningTime}
+              setval={setvgEveningTime}
+              label="VideoGraphy Evening Time"
+              title="VideoGraphy Evening Time"
               editable={false}
             />
           </TouchableOpacity>
