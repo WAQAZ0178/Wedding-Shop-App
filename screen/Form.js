@@ -18,10 +18,10 @@ import Button from "../components/button/button";
 
 const Form = ({ navigation }) => {
   const [pickerDates, setPickerDates] = React.useState({
-    wedding_date: moment().format("lll"),
-    mor_date: moment().format("lll"),
-    collectionOutfit: moment().format("lll"),
-    collectionflowerDate: moment().format("lll"),
+    wedding_date: moment().format("YYYY-MM-DD"),
+    mor_date: moment().format("YYYY-MM-DD"),
+    collectionOutfit: moment().format("YYYY-MM-DD"),
+    collectionflowerDate: moment().format("YYYY-MM-DD"),
   });
 
   const [timePicker, setTimePicker] = React.useState({
@@ -35,18 +35,19 @@ const Form = ({ navigation }) => {
     fifthVGEndTime: moment().format("HH:mm:ss"),
     fifthVGEveningTime: moment().format("HH:mm:ss"),
   });
+  const [mode, setMode] = useState("date");
   const [option, setOption] = useState("wedding_date");
   const [timeOption, settimeOption] = useState("fifthVGEndTime");
   const [isloading, setisloading] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
+  const [todayDate, settodayDate] = useState(moment().format("YYYY-MM-DD"));
 
   const [invoice, setInvoice] = useState("");
   const [bride, setbride] = useState("");
   const [groom, setgroom] = useState("");
-  const [weddingDate, setweddingDate] = useState(new Date());
+  const [weddingDate, setweddingDate] = useState(moment().format("YYYY-MM-DD"));
   const [bridephone, setBridephone] = useState("");
   const [groomPhone, setgroomPhone] = useState("");
 
@@ -87,6 +88,7 @@ const Form = ({ navigation }) => {
   const [earRing, setEarRing] = useState("");
   const [hairPeace, setHairPeace] = useState("");
   const [flowerDes, setflowerDes] = useState("");
+
   const [thirdAppointment1, setthirdAppointment1] = useState("");
   const [thirdAppointment2, setthirdAppointment2] = useState("");
   const [thirdAppointment3, setthirdAppointment3] = useState("");
@@ -102,6 +104,12 @@ const Form = ({ navigation }) => {
   );
   const [collectionFlowerOutfitDate, setCollectionFlowerOutfitDate] = useState(
     moment().format("L")
+  );
+  const [collectionFlowerTime, setCollectionFlowerTime] = useState(
+    moment().format("LT")
+  );
+  const [collectionFlowerOutfitTime, setCollectionFlowerOutfitTime] = useState(
+    moment().format("LT")
   );
 
   //////////////////////////////////////4th appointment
@@ -172,6 +180,10 @@ const Form = ({ navigation }) => {
       first_8 = "",
       first_9 = "",
       url = "";
+    var vl = "",
+      cmcm = "",
+      hr = "",
+      ear = "";
     if (!invoice) {
       alert("please enter invoice number ");
     } else {
@@ -216,71 +228,85 @@ const Form = ({ navigation }) => {
         const ref = firebase.firestore().collection("userData").doc().id;
         first_9 = await uploadImage(firstImage9.uri, "userData/" + ref);
       }
+      if (veil) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        vl = await uploadImage(vail.uri, "userData/" + ref);
+      }
+      if (hairPeace) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        hr = await uploadImage(hairPeace.uri, "userData/" + ref);
+      }
+      if (camCom) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        cmcm = await uploadImage(camCom.uri, "userData/" + ref);
+      }
+      if (earRing) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        ear = await uploadImage(earRing.uri, "userData/" + ref);
+      }
       console.log(url);
       var id = moment().format("YYY-MM-DD-HH:mm:ss");
-      await firebase
-        .firestore()
-        .collection("userData")
-        .doc(id)
-        .set({
-          id: id,
-          image: url,
-          groomName: groom,
-          brideNamr: bride,
-          weddingDate: weddingDate,
-          invoice: invoice,
-          bridePhone: bridephone,
-          groomPhone: groomPhone,
-          todayDate: moment().format("YYYY-MM-DD"),
-          firstImage_1: first_1,
-          firstImage_2: first_2,
-          firstImage_3: first_3,
-          firstImage_4: first_4,
-          firstImage_5: first_5,
-          firstImage_6: first_6,
-          firstImage_7: first_7,
-          firstImage_8: first_8,
-          firstImage_9: first_9,
+      await firebase.firestore().collection("userData").doc(id).set({
+        id: id,
+        image: url,
+        groomName: groom,
+        brideNamr: bride,
+        weddingDate: weddingDate,
+        invoice: invoice,
+        bridePhone: bridephone,
+        groomPhone: groomPhone,
+        todayDate: todayDate,
+        firstImage_1: first_1,
+        firstImage_2: first_2,
+        firstImage_3: first_3,
+        firstImage_4: first_4,
+        firstImage_5: first_5,
+        firstImage_6: first_6,
+        firstImage_7: first_7,
+        firstImage_8: first_8,
+        firstImage_9: first_9,
 
-          remarks1: remark1,
-          remarks2: remark2,
-          remarks3: remark3,
-          remarks4: remark4,
-          remarks5: remark5,
-          remarks6: remark6,
-          remarks7: remark7,
-          remarks8: remark8,
+        remarks1: remark1,
+        remarks2: remark2,
+        remarks3: remark3,
+        remarks4: remark4,
+        remarks5: remark5,
+        remarks6: remark6,
+        remarks7: remark7,
+        remarks8: remark8,
 
-          veil: veil,
-          camcom: camCom,
-          collectionFlowerDate: collectionFlowerDate,
-          collectionOutfitDate: collectionFlowerOutfitDate,
-          hairPeace: hairPeace,
-          earRing: earRing,
-          flowerDescription: flowerDes,
-          description1: thirdDes1,
-          description2: thirdDes2,
-          description3: thirdDes3,
+        veil: vl,
+        camcom: cmcm,
+        collectionFlowerDate: collectionFlowerDate,
+        collectionOutfitDate: collectionFlowerOutfitDate,
+        collectionFlowerTime: collectionFlowerTime,
+        collectionOutfitTime: collectionFlowerOutfitTime,
+        hairPeace: hr,
+        earRing: ear,
+        flowerDescription: flowerDes,
+        description1: thirdDes1,
+        description2: thirdDes2,
+        description3: thirdDes3,
 
-          MUAName: muaName,
-          moringTime: moringTime,
-          venueAddress: venueAddress,
-          afterNoonSTartTime: afterNoonStartTime,
-          readyTime: readyTime,
-          venue: afterNoonVenu,
-          photoStartTime: photoStartTime,
-          photoEnDTime: photoEndTime,
-          photoMorningVenue: photoMoringVenue,
-          photoEveingVenue: photoEveningVenue,
+        MUAName: muaName,
+        moringTime: moringTime,
+        venueAddress: venueAddress,
+        afterNoonSTartTime: afterNoonStartTime,
+        readyTime: readyTime,
+        venue: afterNoonVenu,
+        photoStartTime: photoStartTime,
+        photoEnDTime: photoEndTime,
+        photoMorningVenue: photoMoringVenue,
+        photoEveingVenue: photoEveningVenue,
 
-          VideoGrapherName: videographerName,
-          VideoGrapherStartTime: vgStartTime,
-          VideoGrapherEndTime: vgEndTime,
-          VideoGrapherEveningVenue: vgEveningVenue,
-          VideoGrapherMorningVenue: vgMorningVenue,
-          VideoGrapherTotalTime: vgHours,
-          VideoGraphyEveningTime: vgEveningTime,
-        });
+        VideoGrapherName: videographerName,
+        VideoGrapherStartTime: vgStartTime,
+        VideoGrapherEndTime: vgEndTime,
+        VideoGrapherEveningVenue: vgEveningVenue,
+        VideoGrapherMorningVenue: vgMorningVenue,
+        VideoGrapherTotalTime: vgHours,
+        VideoGraphyEveningTime: vgEveningTime,
+      });
       setisloading(false);
       navigation.goBack();
     }
@@ -311,6 +337,10 @@ const Form = ({ navigation }) => {
       setvgEndTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fifthVGEveningTime") {
       setvgEndTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "collectionFlowerTime") {
+      setCollectionFlowerTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "collectionFlowerOutfitTime") {
+      setCollectionFlowerOutfitTime(moment(currentDate).format("LT"));
     }
   };
 
@@ -342,15 +372,16 @@ const Form = ({ navigation }) => {
     // setDate(currentDate);
     setPickerDates({
       ...pickerDates,
-      [option]: moment(currentDate).format("lll"),
+      [option]: moment(currentDate).format("YYYY-MM-DD"),
     });
-
     if (option == "wedding_date") {
-      setweddingDate(moment(currentDate).format("L"));
+      setweddingDate(moment(currentDate).format("YYYY-MM-DD"));
     } else if (option == "collectionOutfit") {
-      setCollectionFlowerOutfitDate(moment(currentDate).format("L"));
+      setCollectionFlowerOutfitDate(moment(currentDate).format("YYYY-MM-DD"));
     } else if (option == "collectionflowerDate") {
-      setCollectionFlowerDate(moment(currentDate).format("L"));
+      setCollectionFlowerDate(moment(currentDate).format("YYYY-MM-DD"));
+    } else if (option == "today_Date") {
+      settodayDate(moment(currentDate).format("YYYY-MM-DD"));
     }
   };
   const showMode = (currentMode) => {
@@ -402,9 +433,14 @@ const Form = ({ navigation }) => {
             type="phone-pad"
           />
 
-          <TouchableOpacity disabled={true}>
+          <TouchableOpacity
+            onPress={() => {
+              setOption("today_Date");
+              setShow(true);
+            }}
+          >
             <Text style={styles.input}>
-              Today date {moment().format("YYYY-MM-DD")}
+              Today date {moment(todayDate).format("L")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -413,9 +449,7 @@ const Form = ({ navigation }) => {
               setShow(true);
             }}
           >
-            <Text style={styles.input}>
-              Wedding date {pickerDates.wedding_date}
-            </Text>
+            <Text style={styles.input}>Wedding date {weddingDate}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => pickImage(setImage)}
@@ -840,31 +874,64 @@ const Form = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          <TextInputCustomize
-            val={veil}
-            setval={setVeil}
-            label="Enter Veil"
-            title="Veil "
-          />
-          <TextInputCustomize
-            val={camCom}
-            setval={setcamCom}
-            label="Enter camcom"
-            title="Camcom"
-          />
-          <TextInputCustomize
-            val={hairPeace}
-            setval={setHairPeace}
-            label="Enter hair peace"
-            title="hair peace  "
-          />
-          <TextInputCustomize
-            val={earRing}
-            setval={setEarRing}
-            label="Enter Ear Ring"
-            title="ear Ring "
-          />
-
+          <TouchableOpacity
+            onPress={() => pickImage(setVeil)}
+            style={styles.imageContainer}
+          >
+            <Text style={{ marginVertical: 5, color: "black" }}>Veil</Text>
+            {thirdAppointment1 ? (
+              <Image style={styles.imageBox} source={{ uri: veil.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setcamCom)}
+            style={styles.imageContainer}
+          >
+            <Text style={{ marginVertical: 5, color: "black" }}>CamCom</Text>
+            {thirdAppointment1 ? (
+              <Image style={styles.imageBox} source={{ uri: camCom.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setHairPeace)}
+            style={styles.imageContainer}
+          >
+            <Text style={{ marginVertical: 5, color: "black" }}>
+              Hair Piece
+            </Text>
+            {thirdAppointment1 ? (
+              <Image style={styles.imageBox} source={{ uri: hairPeace.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setEarRing)}
+            style={styles.imageContainer}
+          >
+            <Text style={{ marginVertical: 5, color: "black" }}>Ear Ring</Text>
+            {thirdAppointment1 ? (
+              <Image style={styles.imageBox} source={{ uri: earRing.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment1)}
             style={styles.imageContainer}
@@ -898,7 +965,7 @@ const Form = ({ navigation }) => {
             onPress={() => pickImage(setthirdAppointment2)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>Corsage</Text>
             {thirdAppointment2 ? (
               <Image
                 style={styles.imageBox}
@@ -915,7 +982,7 @@ const Form = ({ navigation }) => {
             onPress={() => pickImage(setthirdAppointment3)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>corsage</Text>
             {thirdAppointment3 ? (
               <Image
                 style={styles.imageBox}
@@ -932,7 +999,7 @@ const Form = ({ navigation }) => {
             onPress={() => pickImage(setthirdAppointment4)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>corsage</Text>
             {thirdAppointment4 ? (
               <Image
                 style={styles.imageBox}
@@ -977,6 +1044,35 @@ const Form = ({ navigation }) => {
             label="Enter Remarks"
             title="description "
           />
+
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("collectionFlowerTime");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerTime}
+              setval={setCollectionFlowerTime}
+              label="Select Collection flower  time"
+              title="Select Collection flower time"
+              editable={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("collectionFlowerOutfitTime");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerOutfitTime}
+              setval={setCollectionFlowerOutfitTime}
+              label="Select Collection outfit  time"
+              title="Select Collection outfit time"
+              editable={false}
+            />
+          </TouchableOpacity>
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>4rd appointment Photography</Text>

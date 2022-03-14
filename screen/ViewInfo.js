@@ -67,13 +67,15 @@ const ViewInfo = ({ navigation, route }) => {
     setthirdAppointment5();
     setshowWeddingDate();
     setshowRemarksDate();
-    setVeil(data?.veil);
-    setcamCom(data?.camcom);
-    setEarRing(data?.earRing);
-    setHairPeace(data?.hairPeace);
+    setVeil({ uri: data?.veil });
+    setcamCom({ uri: data?.camcom });
+    setEarRing({ uri: data?.earRing });
+    setHairPeace({ uri: data?.hairPeace });
     setflowerDes(data?.flowerDescription);
     setCollectionFlowerOutfitDate(data?.collectionOutfitDate);
     setCollectionFlowerDate(data?.collectionFlowerDate);
+    setCollectionFlowerOutfitTime(data?.collectionOutfitTime);
+    setCollectionFlowerTime(data?.collectionFlowerTime);
 
     setvideographerName(data?.VideoGrapherName);
     setvgStartTime(data?.VideoGrapherStartTime);
@@ -163,6 +165,12 @@ const ViewInfo = ({ navigation, route }) => {
   );
   const [collectionFlowerOutfitDate, setCollectionFlowerOutfitDate] = useState(
     moment().format("L")
+  );
+  const [collectionFlowerTime, setCollectionFlowerTime] = useState(
+    moment().format("LT")
+  );
+  const [collectionFlowerOutfitTime, setCollectionFlowerOutfitTime] = useState(
+    moment().format("LT")
   );
 
   //////////////////////////////////////4th appointment
@@ -684,34 +692,82 @@ const ViewInfo = ({ navigation, route }) => {
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
 
-          <TextInputCustomize
-            val={veil}
-            setval={setVeil}
-            label="Enter Veil"
-            title="Veil "
-            editable={false}
-          />
-          <TextInputCustomize
-            val={camCom}
-            setval={setcamCom}
-            label="Enter camcom"
-            title="Camcom"
-            editable={false}
-          />
-          <TextInputCustomize
-            val={hairPeace}
-            setval={setHairPeace}
-            label="Enter hair peace"
-            title="hair peace  "
-            editable={false}
-          />
-          <TextInputCustomize
-            val={earRing}
-            setval={setEarRing}
-            label="Enter Ear Ring"
-            title="ear Ring "
-            editable={false}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              settempImage(veil.uri);
+              setshowImageModal(true);
+            }}
+            style={styles.firstAppointmentIMageBox}
+          >
+            {veil ? (
+              <Image
+                style={styles.firstAppointmentImage}
+                source={{ uri: veil.uri }}
+              />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.firstAppointmentImage}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              settempImage(camCom.uri);
+              setshowImageModal(true);
+            }}
+            style={styles.firstAppointmentIMageBox}
+          >
+            {camCom ? (
+              <Image
+                style={styles.firstAppointmentImage}
+                source={{ uri: camCom.uri }}
+              />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.firstAppointmentImage}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              settempImage(hairPeace.uri);
+              setshowImageModal(true);
+            }}
+            style={styles.firstAppointmentIMageBox}
+          >
+            {hairPeace ? (
+              <Image
+                style={styles.firstAppointmentImage}
+                source={{ uri: hairPeace.uri }}
+              />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.firstAppointmentImage}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              settempImage(earRing.uri);
+              setshowImageModal(true);
+            }}
+            style={styles.firstAppointmentIMageBox}
+          >
+            {earRing ? (
+              <Image
+                style={styles.firstAppointmentImage}
+                source={{ uri: earRing.uri }}
+              />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.firstAppointmentImage}
+              />
+            )}
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Banquet</Text>
@@ -811,6 +867,21 @@ const ViewInfo = ({ navigation, route }) => {
             setval={setthirdDes1}
             label="Enter Remarks"
             title="description "
+            editable={false}
+          />
+          <TextInputCustomize
+            val={collectionFlowerTime}
+            setval={setCollectionFlowerTime}
+            label="Select Collection flower  time"
+            title="Select Collection flower time"
+            editable={false}
+          />
+
+          <TextInputCustomize
+            val={collectionFlowerOutfitTime}
+            setval={setCollectionFlowerOutfitTime}
+            label="Select Collection outfit  time"
+            title="Select Collection outfit time"
             editable={false}
           />
         </View>

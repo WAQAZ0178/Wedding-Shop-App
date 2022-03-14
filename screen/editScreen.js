@@ -65,13 +65,16 @@ const EditScreen = ({ navigation, route }) => {
     setthirdAppointment5();
     setshowWeddingDate();
     setshowRemarksDate();
-    setVeil(data?.veil);
-    setcamCom(data?.camcom);
-    setEarRing(data?.earRing);
-    setHairPeace(data?.hairPeace);
+
+    setVeil({ uri: data?.veil });
+    setcamCom({ uri: data?.camcom });
+    setEarRing({ uri: data?.earRing });
+    setHairPeace({ uri: data?.hairPeace });
     setflowerDes(data?.flowerDescription);
     setCollectionFlowerOutfitDate(data?.collectionOutfitDate);
     setCollectionFlowerDate(data?.collectionFlowerDate);
+    setCollectionFlowerOutfitTime(data?.collectionOutfitTime);
+    setCollectionFlowerTime(data?.collectionFlowerTime);
 
     setvideographerName(data?.VideoGrapherName);
     setvgStartTime(data?.VideoGrapherStartTime);
@@ -157,6 +160,12 @@ const EditScreen = ({ navigation, route }) => {
   const [collectionFlowerOutfitDate, setCollectionFlowerOutfitDate] = useState(
     moment().format("L")
   );
+  const [collectionFlowerTime, setCollectionFlowerTime] = useState(
+    moment().format("LT")
+  );
+  const [collectionFlowerOutfitTime, setCollectionFlowerOutfitTime] = useState(
+    moment().format("LT")
+  );
 
   //////////////////////////////////////4th appointment
   const [muaName, setmuaName] = useState("");
@@ -217,6 +226,10 @@ const EditScreen = ({ navigation, route }) => {
   };
   const uploadInformation = async () => {
     var data = route?.params?.item;
+    var vl = "",
+      cmcm = "",
+      hr = "",
+      ear = "";
     var first_1 = "",
       first_2 = "",
       first_3 = "",
@@ -313,6 +326,32 @@ const EditScreen = ({ navigation, route }) => {
         const ref = firebase.firestore().collection("userData").doc().id;
         first_9 = await uploadImage(firstImage9.uri, "userData/" + ref);
       }
+
+      if (!veil?.uri) {
+        vl = "";
+      } else {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        vl = await uploadImage(veil.uri, "userData/" + ref);
+      }
+      if (!hairPeace?.uri) {
+        hr = "";
+      } else {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        hr = await uploadImage(hairPeace.uri, "userData/" + ref);
+      }
+      if (!camCom?.uri) {
+        cmcm = "";
+      } else {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        cmcm = await uploadImage(camCom.uri, "userData/" + ref);
+      }
+      if (!earRing?.uri) {
+        ear = "";
+      } else {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        ear = await uploadImage(earRing.uri, "userData/" + ref);
+      }
+
       console.log(url);
       var id = moment().format("YYY-MM-DD-HH:mm:ss");
       await firebase
@@ -346,10 +385,10 @@ const EditScreen = ({ navigation, route }) => {
           remarks7: remark7,
           remarks8: remark8,
 
-          veil: veil,
-          camcom: camCom,
-          hairPeace: hairPeace,
-          earRing: earRing,
+          veil: vl,
+          camcom: cmcm,
+          hairPeace: hr,
+          earRing: ear,
           flowerDescription: flowerDes,
           description1: thirdDes1,
           description2: thirdDes2,
@@ -420,23 +459,7 @@ const EditScreen = ({ navigation, route }) => {
     setShow(true);
     setMode(currentMode);
   };
-  const showDatepicker = () => {
-    showMode("date");
-  };
-  const fun = () => {
-    var da = date.time;
-    var res = date.toISOString().slice(0, 10).replace(/-/g, "");
-    var d = date.toLocaleDateString();
-    var d1 = moment(date).format("Do MMM YYYY");
-    Alert.alert(d1, "My Alert Msg", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-  };
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -467,11 +490,7 @@ const EditScreen = ({ navigation, route }) => {
             label="Enter bride name"
             title="bride name "
           />
-          {/* <TouchableOpacity disabled={true}>
-            <Text style={styles.input}>
-              Today date {moment().format("YYYY-MM-DD")}
-            </Text>
-          </TouchableOpacity> */}
+
           <TouchableOpacity onPress={() => setshowWeddingDate(true)}>
             <Text style={styles.input}>
               Wedding date {moment(weddingDate).format("YYYY-MM-DD")}
@@ -876,30 +895,58 @@ const EditScreen = ({ navigation, route }) => {
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
 
-          <TextInputCustomize
-            val={veil}
-            setval={setVeil}
-            label="Enter Veil"
-            title="Veil "
-          />
-          <TextInputCustomize
-            val={camCom}
-            setval={setcamCom}
-            label="Enter camcom"
-            title="Camcom"
-          />
-          <TextInputCustomize
-            val={hairPeace}
-            setval={setHairPeace}
-            label="Enter hair peace"
-            title="hair peace  "
-          />
-          <TextInputCustomize
-            val={earRing}
-            setval={setEarRing}
-            label="Enter Ear Ring"
-            title="ear Ring "
-          />
+          <TouchableOpacity
+            onPress={() => pickImage(setVeil)}
+            style={styles.imageContainer}
+          >
+            {veil ? (
+              <Image style={styles.imageBox} source={{ uri: veil.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setcamCom)}
+            style={styles.imageContainer}
+          >
+            {camCom ? (
+              <Image style={styles.imageBox} source={{ uri: camCom.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setHairPeace)}
+            style={styles.imageContainer}
+          >
+            {hairPeace ? (
+              <Image style={styles.imageBox} source={{ uri: hairPeace.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => pickImage(setEarRing)}
+            style={styles.imageContainer}
+          >
+            {earRing ? (
+              <Image style={styles.imageBox} source={{ uri: earRing.uri }} />
+            ) : (
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.imageBox}
+              />
+            )}
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment1)}
