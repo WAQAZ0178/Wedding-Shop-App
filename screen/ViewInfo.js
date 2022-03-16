@@ -83,6 +83,8 @@ const ViewInfo = ({ navigation, route }) => {
     setvgMorningVenue(data?.VideoGrapherMorningVenue);
     setvgEveningVenue(data?.VideoGrapherEveningVenue);
     setvgHours(data?.VideoGrapherTotalTime);
+    setVGEveningEndTime(data?.VideoGrapherEveningStartTime);
+    seVGEveningStartTime(data?.VideoGrapherEveningEndTime);
 
     setmuaName(data?.MUAName);
     setMoringTime(data?.moringTime);
@@ -197,6 +199,8 @@ const ViewInfo = ({ navigation, route }) => {
   const [vgEveningVenue, setvgEveningVenue] = useState("");
   const [vgHours, setvgHours] = useState("");
   const [vgEveningTime, setvgEveningTime] = useState("");
+  const [vgEveningEndTime, setVGEveningEndTime] = useState("");
+  const [vgEveningStartTime, seVGEveningStartTime] = useState("");
 
   ///////////////////////////// show date picker
   const [showWeddingDate, setshowWeddingDate] = useState(false);
@@ -798,7 +802,7 @@ const ViewInfo = ({ navigation, route }) => {
             editable={false}
           />
           <TouchableOpacity style={styles.imageContainer}>
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment2 ? (
               <Image
                 style={styles.imageBox}
@@ -812,7 +816,7 @@ const ViewInfo = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity style={styles.imageContainer}>
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment3 ? (
               <Image
                 style={styles.imageBox}
@@ -826,7 +830,7 @@ const ViewInfo = ({ navigation, route }) => {
             )}
           </TouchableOpacity>
           <TouchableOpacity style={styles.imageContainer}>
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment4 ? (
               <Image
                 style={styles.imageBox}
@@ -983,28 +987,6 @@ const ViewInfo = ({ navigation, route }) => {
             editable={false}
           />
           <TextInputCustomize
-            val={vgStartTime}
-            setval={setvgStartTime}
-            label="VideoGraphy start Time"
-            title="VideoGraphy start Time"
-            editable={false}
-          />
-          <TextInputCustomize
-            val={vgEndTime}
-            setval={vgEndTime}
-            label="VideoGraphy end  Time"
-            title="VideoGraphy end Time"
-            editable={false}
-          />
-
-          <TextInputCustomize
-            val={vgEveningVenue}
-            setval={vgEveningVenue}
-            label="VideoGraphy evening venue "
-            title="VideoGraphy evening venue "
-            editable={false}
-          />
-          <TextInputCustomize
             val={vgMorningVenue}
             setval={setvgMorningVenue}
             label="VideoGraphy moring venue "
@@ -1012,12 +994,42 @@ const ViewInfo = ({ navigation, route }) => {
             editable={false}
           />
           <TextInputCustomize
-            val={vgMorningVenue}
-            setval={setvgMorningVenue}
-            label="VideoGraphy moring venue"
-            title="VideoGraphy moring venue"
+            val={vgStartTime}
+            setval={setvgStartTime}
+            label="VideoGraphy Morning start Time"
+            title="VideoGraphy Morning start Time"
             editable={false}
           />
+          <TextInputCustomize
+            val={vgEndTime}
+            setval={vgEndTime}
+            label="VideoGraphy Morning end  Time"
+            title="VideoGraphy Morning end Time"
+            editable={false}
+          />
+
+          <TextInputCustomize
+            val={vgEveningVenue}
+            setval={vgEveningVenue}
+            label="VideoGraphy Evening venue "
+            title="VideoGraphy EVening venue "
+            editable={false}
+          />
+          <TextInputCustomize
+            val={vgEveningStartTime}
+            setval={seVGEveningStartTime}
+            label="VideoGraphy evening Start time "
+            title="VideoGraphy evening Start time  "
+            editable={false}
+          />
+          <TextInputCustomize
+            val={vgEveningEndTime}
+            setval={setVGEveningEndTime}
+            label="VideoGraphy evening End time "
+            title="VideoGraphy evening End time  "
+            editable={false}
+          />
+
           <TextInputCustomize
             val={vgHours}
             setval={setvgHours}

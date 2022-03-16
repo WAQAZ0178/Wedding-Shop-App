@@ -80,7 +80,7 @@ const Form = ({ navigation }) => {
   const [remark6, setremark6] = useState("");
   const [remark7, setremark7] = useState("");
   const [remark8, setremark8] = useState("");
-  const [remarksDate, setremarksDate] = useState(new Date());
+  const [remarksDate, setremarksDate] = useState(moment().format("YYYY-MM-DD"));
 
   ///////////////////////////////////3rd appoint ment
   const [veil, setVeil] = useState("");
@@ -100,10 +100,10 @@ const Form = ({ navigation }) => {
   const [thirdDes4, setthirdDes4] = useState("");
   const [thirdDes5, setthirdDes5] = useState("");
   const [collectionFlowerDate, setCollectionFlowerDate] = useState(
-    moment().format("L")
+    moment().format("YYYY-MM-DD")
   );
   const [collectionFlowerOutfitDate, setCollectionFlowerOutfitDate] = useState(
-    moment().format("L")
+    moment().format("YYYY-MM-DD")
   );
   const [collectionFlowerTime, setCollectionFlowerTime] = useState(
     moment().format("LT")
@@ -130,12 +130,14 @@ const Form = ({ navigation }) => {
   //////////////////////////////////////5th appointment
 
   const [videographerName, setvideographerName] = useState("");
-  const [vgStartTime, setvgStartTime] = useState("");
+  const [vgMorningStartTime, setvgMorningStartTime] = useState("");
+  const [vgMoringEndTime, setvgMoringEndTime] = useState("");
   const [vgEndTime, setvgEndTime] = useState("");
   const [vgMorningVenue, setvgMorningVenue] = useState("");
   const [vgEveningVenue, setvgEveningVenue] = useState("");
   const [vgHours, setvgHours] = useState("");
-  const [vgEveningTime, setvgEveningTime] = useState("");
+  const [vgEveningEndTime, setVGEveningEndTime] = useState("");
+  const [vgEveningStartTime, seVGtEveningStartTime] = useState("");
 
   ///////////////////////////// show date picker
   const [showWeddingDate, setshowWeddingDate] = useState(false);
@@ -300,12 +302,14 @@ const Form = ({ navigation }) => {
         photoEveingVenue: photoEveningVenue,
 
         VideoGrapherName: videographerName,
-        VideoGrapherStartTime: vgStartTime,
-        VideoGrapherEndTime: vgEndTime,
+        VideoGrapherMorningStartTime: vgMorningStartTime,
+        VideoGrapherMoringEndTime: vgMoringEndTime,
+        VideoGrapherEveningStartTime: vgEveningStartTime,
+        VideoGrapherEveningEndTime: vgEveningEndTime,
+
         VideoGrapherEveningVenue: vgEveningVenue,
         VideoGrapherMorningVenue: vgMorningVenue,
         VideoGrapherTotalTime: vgHours,
-        VideoGraphyEveningTime: vgEveningTime,
       });
       setisloading(false);
       navigation.goBack();
@@ -331,16 +335,18 @@ const Form = ({ navigation }) => {
       setphotoStartTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fouthPhotoEndTime") {
       setphotoEndTime(moment(currentDate).format("LT"));
-    } else if (timeOption == "fifthVGStartTime") {
-      setvgStartTime(moment(currentDate).format("LT"));
-    } else if (timeOption == "fifthVGEndTime") {
-      setvgEndTime(moment(currentDate).format("LT"));
-    } else if (timeOption == "fifthVGEveningTime") {
-      setvgEndTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fifthVGMorningStartTime") {
+      setvgMorningStartTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fifthEveningStartTime") {
+      seVGtEveningStartTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fifthEveningEndTime") {
+      setVGEveningEndTime(moment(currentDate).format("LT"));
     } else if (timeOption == "collectionFlowerTime") {
       setCollectionFlowerTime(moment(currentDate).format("LT"));
     } else if (timeOption == "collectionFlowerOutfitTime") {
       setCollectionFlowerOutfitTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fifthVGMorningEndTime") {
+      setvgMoringEndTime(moment(currentDate).format("LT"));
     }
   };
 
@@ -844,7 +850,12 @@ const Form = ({ navigation }) => {
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
-
+          <TextInputCustomize
+            val={flowerDes}
+            setval={setflowerDes}
+            label="Enter flower Des"
+            title="flower Description "
+          />
           <TouchableOpacity
             onPress={() => {
               setShow(true);
@@ -856,6 +867,20 @@ const Form = ({ navigation }) => {
               setval={setCollectionFlowerOutfitDate}
               label="Select Collection outfit Date"
               title="Select Collection outfit Date"
+              editable={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("collectionFlowerOutfitTime");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerOutfitTime}
+              setval={setCollectionFlowerOutfitTime}
+              label="Select Collection outfit  time"
+              title="Select Collection outfit time"
               editable={false}
             />
           </TouchableOpacity>
@@ -873,7 +898,20 @@ const Form = ({ navigation }) => {
               editable={false}
             />
           </TouchableOpacity>
-
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("collectionFlowerTime");
+            }}
+          >
+            <TextInputCustomize
+              val={collectionFlowerTime}
+              setval={setCollectionFlowerTime}
+              label="Select Collection flower  time"
+              title="Select Collection flower time"
+              editable={false}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => pickImage(setVeil)}
             style={styles.imageContainer}
@@ -932,6 +970,8 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
+          {/* //////////////////////////////////////////////// */}
+
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment1)}
             style={styles.imageContainer}
@@ -950,17 +990,12 @@ const Form = ({ navigation }) => {
             )}
           </TouchableOpacity>
           <TextInputCustomize
-            val={flowerDes}
-            setval={setflowerDes}
-            label="Enter flower Des"
-            title="flower Description "
-          />
-          <TextInputCustomize
             val={thirdDes1}
             setval={setthirdDes1}
             label="Enter description"
             title="description "
           />
+
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment2)}
             style={styles.imageContainer}
@@ -978,6 +1013,13 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
+          <TextInputCustomize
+            val={thirdDes2}
+            setval={setthirdDes2}
+            label="Enter description"
+            title="description "
+          />
+
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment3)}
             style={styles.imageContainer}
@@ -995,6 +1037,13 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
+          <TextInputCustomize
+            val={thirdDes3}
+            setval={setthirdDes3}
+            label="Enter Description"
+            title="description "
+          />
+
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment4)}
             style={styles.imageContainer}
@@ -1012,6 +1061,14 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
+
+          <TextInputCustomize
+            val={thirdDes4}
+            setval={setthirdDes4}
+            label="Enter description"
+            title="description "
+          />
+
           <TouchableOpacity
             onPress={() => pickImage(setthirdAppointment5)}
             style={styles.imageContainer}
@@ -1031,48 +1088,12 @@ const Form = ({ navigation }) => {
               />
             )}
           </TouchableOpacity>
-
           <TextInputCustomize
-            val={thirdDes2}
-            setval={setthirdDes1}
-            label="Enter description"
-            title="description "
+            val={thirdDes5}
+            setval={setthirdDes5}
+            label="Enter Description"
+            title=" Description "
           />
-          <TextInputCustomize
-            val={thirdDes3}
-            setval={setthirdDes1}
-            label="Enter Remarks"
-            title="description "
-          />
-
-          <TouchableOpacity
-            onPress={() => {
-              setshowWeddingDate(true);
-              settimeOption("collectionFlowerTime");
-            }}
-          >
-            <TextInputCustomize
-              val={collectionFlowerTime}
-              setval={setCollectionFlowerTime}
-              label="Select Collection flower  time"
-              title="Select Collection flower time"
-              editable={false}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setshowWeddingDate(true);
-              settimeOption("collectionFlowerOutfitTime");
-            }}
-          >
-            <TextInputCustomize
-              val={collectionFlowerOutfitTime}
-              setval={setCollectionFlowerOutfitTime}
-              label="Select Collection outfit  time"
-              title="Select Collection outfit time"
-              editable={false}
-            />
-          </TouchableOpacity>
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>4rd appointment Photography</Text>
@@ -1204,64 +1225,73 @@ const Form = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setshowWeddingDate(true);
-              settimeOption("fifthVGStartTime");
+              settimeOption("fifthVGMorningStartTime");
             }}
           >
             <TextInputCustomize
-              val={vgStartTime}
-              setval={setvgStartTime}
-              label="VideoGraphy start Time"
-              title="VideoGraphy start Time"
+              val={vgMorningStartTime}
+              setval={setvgMorningStartTime}
+              label="VideoGraphy Morning Start Time"
+              title="VideoGraphy Morning Start Time"
               editable={false}
             />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setshowWeddingDate(true);
-              settimeOption("fifthVGEndTime");
+              settimeOption("fifthVGMorningEndTime");
             }}
           >
             <TextInputCustomize
-              val={vgEndTime}
-              setval={vgEndTime}
-              label="VideoGraphy end  Time"
-              title="VideoGraphy end Time"
+              val={vgMoringEndTime}
+              setval={setvgMoringEndTime}
+              label="VideoGraphy Morning End  Time"
+              title="VideoGraphy Morning End Time"
               editable={false}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setshowWeddingDate(true);
-              settimeOption("fifthVGEveningTime");
-            }}
-          >
-            <TextInputCustomize
-              val={vgEveningTime}
-              setval={setvgEveningTime}
-              label="VideoGraphy Evening Time"
-              title="VideoGraphy Evening Time"
-              editable={false}
-            />
-          </TouchableOpacity>
+          <TextInputCustomize
+            val={vgMorningVenue}
+            setval={setvgMorningVenue}
+            label="VideoGraphy morning venue "
+            title="VideoGraphy Morning venue "
+          />
 
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("fifthEveningStartTime");
+            }}
+          >
+            <TextInputCustomize
+              val={vgEveningStartTime}
+              setval={seVGtEveningStartTime}
+              label="VideoGraphy Evening Start Time"
+              title="VideoGraphy Evening Start Time"
+              editable={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setshowWeddingDate(true);
+              settimeOption("fifthEveningEndTime");
+            }}
+          >
+            <TextInputCustomize
+              val={vgEveningEndTime}
+              setval={setVGEveningEndTime}
+              label="VideoGraphy Evening End  Time"
+              title="VideoGraphy Evening End Time"
+              editable={false}
+            />
+          </TouchableOpacity>
           <TextInputCustomize
             val={vgEveningVenue}
-            setval={vgEveningVenue}
+            setval={setvgEveningVenue}
             label="VideoGraphy evening venue "
-            title="VideoGraphy evening venue "
+            title="VideoGraphy Evening venue "
           />
-          <TextInputCustomize
-            val={vgMorningVenue}
-            setval={setvgMorningVenue}
-            label="VideoGraphy moring venue "
-            title="VideoGraphy moring venue "
-          />
-          <TextInputCustomize
-            val={vgMorningVenue}
-            setval={setvgMorningVenue}
-            label="VideoGraphy moring venue"
-            title="VideoGraphy moring venue"
-          />
+
           <TextInputCustomize
             val={vgHours}
             setval={setvgHours}

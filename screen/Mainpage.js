@@ -3,10 +3,11 @@ import {
   Text,
   View,
   KeyboardAvoidingView,
-  TextInput,
+  StatusBar,
   Button,
   TouchableOpacity,
   Image,
+  SafeAreaView,
   FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -60,9 +61,18 @@ const Mainpage = ({ navigation }) => {
     );
   };
   return (
-    <View style={{ backgroundColor: "#e0f0ea", flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#e0f0ea", flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Booked")}
+        style={styles.ViewBookedButton}
+      >
+        <Text style={{ color: "white", fontSize: 20, fontWeight: "600" }}>
+          View Schedule
+        </Text>
+      </TouchableOpacity>
       <FlatList
-        contentContainerStyle={{ marginTop: 30 }}
+        contentContainerStyle={{ marginTop: 10 }}
         data={user}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={(item, index) => index.toString()}
@@ -74,10 +84,10 @@ const Mainpage = ({ navigation }) => {
             navigation.push("Form");
           }}
         >
-          <Text style={{ fontSize: 25 }}>+</Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>+</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -87,22 +97,42 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: "blue",
   },
+  ViewBookedButton: {
+    width: 330,
+    height: 70,
+    alignSelf: "center",
+    marginTop: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#313d41",
+  },
   container: {
     alignItems: "center",
     flex: 1,
   },
   buttonText: {
-    borderWidth: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
-
-    borderColor: "black",
+    width: 50,
+    height: 50,
     backgroundColor: "#526DBD",
-    borderRadius: 50,
+    borderRadius: 100,
     bottom: 15,
     right: 15,
-
     position: "absolute",
+    backgroundColor: "#f7f7f7",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+    borderWidth: 0.5,
+    borderColor: "gray",
   },
   item: {
     width: 340,

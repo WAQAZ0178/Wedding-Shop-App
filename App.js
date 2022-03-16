@@ -11,6 +11,7 @@ import firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
 import EditScreen from "./screen/editScreen";
 import ViewInfo from "./screen/ViewInfo";
+import Booked from "./screen/booked";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="Mainpage"
           component={Mainpage}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Booked"
+          component={Booked}
         />
         <Stack.Screen
           options={{ headerShown: false }}

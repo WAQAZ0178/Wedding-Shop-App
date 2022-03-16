@@ -254,7 +254,7 @@ const EditScreen = ({ navigation, route }) => {
       }
 
       if (firstImage1?.uri?.includes("?alt=media")) {
-        first_1 = firstImage1;
+        first_1 = firstImage1.uri;
       } else if (!firstImage1?.uri) {
         first_1 = "";
       } else {
@@ -262,7 +262,7 @@ const EditScreen = ({ navigation, route }) => {
         first_1 = await uploadImage(firstImage1.uri, "userData/" + ref);
       }
       if (firstImage2?.uri?.includes("?alt=media")) {
-        first_2 = firstImage2;
+        first_2 = firstImage2.uri;
       } else if (!firstImage2?.uri) {
         first_2 = "";
       } else {
@@ -270,7 +270,7 @@ const EditScreen = ({ navigation, route }) => {
         first_3 = await uploadImage(firstImage2.uri, "userData/" + ref);
       }
       if (firstImage3?.uri?.includes("?alt=media")) {
-        first_3 = firstImage3;
+        first_3 = firstImage3.uri;
       } else if (!firstImage3?.uri) {
         first_3 = "";
       } else {
@@ -278,9 +278,9 @@ const EditScreen = ({ navigation, route }) => {
         first_3 = await uploadImage(firstImage3.uri, "userData/" + ref);
       }
       if (firstImage4?.uri?.includes("?alt=media")) {
-        first_4 = firstImage4;
+        first_4 = firstImage4.uri;
       } else if (!firstImage4?.uri) {
-        first_4 = firstImage4;
+        first_4 = "";
       } else {
         const ref = firebase.firestore().collection("userData").doc().id;
         first_4 = await uploadImage(firstImage4.uri, "userData/" + ref);
@@ -294,15 +294,15 @@ const EditScreen = ({ navigation, route }) => {
         first_5 = await uploadImage(firstImage5.uri, "userData/" + ref);
       }
       if (firstImage6?.uri?.includes("?alt=media")) {
-        first_6 = firstImage6;
+        first_6 = firstImage6.uri;
       } else if (!firstImage6?.uri) {
-        first_6 = firstImage6;
+        first_6 = "";
       } else {
         const ref = firebase.firestore().collection("userData").doc().id;
         first_6 = await uploadImage(firstImage6.uri, "userData/" + ref);
       }
       if (firstImage7?.uri?.includes("?alt=media")) {
-        first_7 = firstImage7;
+        first_7 = firstImage7.uri;
       } else if (!firstImage7?.uri) {
         first_7 = "";
       } else {
@@ -310,7 +310,7 @@ const EditScreen = ({ navigation, route }) => {
         first_7 = await uploadImage(firstImage7.uri, "userData/" + ref);
       }
       if (firstImage8?.uri?.includes("?alt=media")) {
-        first_8 = firstImage8;
+        first_8 = firstImage8.uri;
       } else if (!firstImage8?.uri) {
         first_8 = "";
       } else {
@@ -318,7 +318,7 @@ const EditScreen = ({ navigation, route }) => {
         first_8 = await uploadImage(firstImage8.uri, "userData/" + ref);
       }
       if (firstImage9?.uri?.includes("?alt=media")) {
-        first_9 = firstImage9;
+        first_9 = firstImage9.uri;
       }
       if (!firstImage9?.uri) {
         first_9 = "";
@@ -981,7 +981,7 @@ const EditScreen = ({ navigation, route }) => {
             onPress={() => pickImage(setthirdAppointment2)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>corsage</Text>
             {thirdAppointment2 ? (
               <Image
                 style={styles.imageBox}
@@ -998,7 +998,7 @@ const EditScreen = ({ navigation, route }) => {
             onPress={() => pickImage(setthirdAppointment3)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>corsage</Text>
             {thirdAppointment3 ? (
               <Image
                 style={styles.imageBox}
@@ -1015,7 +1015,7 @@ const EditScreen = ({ navigation, route }) => {
             onPress={() => pickImage(setthirdAppointment4)}
             style={styles.imageContainer}
           >
-            <Text style={{ marginVertical: 5, color: "black" }}>Courses</Text>
+            <Text style={{ marginVertical: 5, color: "black" }}>corsage</Text>
             {thirdAppointment4 ? (
               <Image
                 style={styles.imageBox}
