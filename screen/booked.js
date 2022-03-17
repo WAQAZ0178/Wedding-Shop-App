@@ -6,7 +6,9 @@ import firebase from "firebase";
 const Booked = ({ navigation }) => {
   const [date, setdate] = useState(moment().format());
   const [flag, setflag] = useState(0);
+  const [data, setdata] = useState({});
   useEffect(() => {
+    setdata("");
     getData();
   }, []);
 
@@ -92,13 +94,17 @@ const Booked = ({ navigation }) => {
     // console.log("====================================");
 
     var d = sessionDates[day.dateString];
-    console.log("====================================", d.id);
+    console.log("====================================", d);
     if (d) {
+      console.log("if");
       var data = await GetItemInfo(d.id);
       console.log("==================================== result data ", data);
-      navigation.navigate("EditScreen", { item: data });
+      setdata(data);
+      // navigation.navigate("EditScreen", { item: data });
     } else if (!d) {
+      console.log("else");
       alert("no data is found again this date ");
+      setdata();
     }
   };
 
@@ -181,11 +187,35 @@ const Booked = ({ navigation }) => {
             },
           }}
           style={{
-            height: 350,
+            height: 330,
             width: "100%",
           }}
           markedDates={sessionDates}
         />
+      </View>
+      <View style={{ flex: 1, width: "100%" }}>
+        {data ? (
+          <View style={{ flex: 1 }}>
+            <Text style={styles.ShowTextBoxContainer}>
+              Invoice No {"    :"} {data.invoice}
+            </Text>
+            <Text style={styles.ShowTextBoxContainer}>
+              Groom {"    :"} {data.groomName}
+            </Text>
+            <Text style={styles.ShowTextBoxContainer}>
+              Bride {"    :"} {data.brideNamr}
+            </Text>
+            <Text style={styles.ShowTextBoxContainer}>
+              Wedding Date {"    :"} {data.weddingDate}
+            </Text>
+            <Text style={styles.ShowTextBoxContainer}>
+              OutFit Date {"    :"} {data.collectionOutfitDate}
+            </Text>
+            <Text style={styles.ShowTextBoxContainer}>
+              Flower Date {"    :"} {data.collectionFlowerDate}
+            </Text>
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -197,6 +227,27 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
+    width: "100%",
+  },
+  ShowTextBoxContainer: {
+    marginTop: 8,
+    height: 50,
+    width: "95%",
+    alignSelf: "center",
+    backgroundColor: "#fff",
+    color: "black",
+    borderRadius: 10,
+    textAlignVertical: "center",
+    fontSize: 15,
+    paddingLeft: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
   },
 });
 
