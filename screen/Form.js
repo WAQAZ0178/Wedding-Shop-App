@@ -15,7 +15,7 @@ import TextInputCustomize from "../components/TextInput/TextInputCustomize";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import Button from "../components/button/button";
-
+import styles from "./form.styles";
 const Form = ({ navigation }) => {
   const [pickerDates, setPickerDates] = React.useState({
     wedding_date: moment().format("YYYY-MM-DD"),
@@ -80,7 +80,10 @@ const Form = ({ navigation }) => {
   const [remark6, setremark6] = useState("");
   const [remark7, setremark7] = useState("");
   const [remark8, setremark8] = useState("");
-  const [remarksDate, setremarksDate] = useState(moment().format("YYYY-MM-DD"));
+  const [seamStressComments, setseamStressComments] = useState("");
+  const [completedBefore, setcompletedBefore] = useState(
+    moment().format("YYYY-MM-DD")
+  );
 
   ///////////////////////////////////3rd appoint ment
   const [veil, setVeil] = useState("");
@@ -186,6 +189,16 @@ const Form = ({ navigation }) => {
       cmcm = "",
       hr = "",
       ear = "";
+
+    var send1 = "",
+      send2 = "",
+      send3 = "",
+      send4 = "",
+      send5 = "",
+      send6 = "",
+      send6 = "",
+      send7 = "",
+      send8 = "";
     if (!invoice) {
       alert("please enter invoice number ");
     } else {
@@ -232,7 +245,7 @@ const Form = ({ navigation }) => {
       }
       if (veil) {
         const ref = firebase.firestore().collection("userData").doc().id;
-        vl = await uploadImage(vail.uri, "userData/" + ref);
+        vl = await uploadImage(veil.uri, "userData/" + ref);
       }
       if (hairPeace) {
         const ref = firebase.firestore().collection("userData").doc().id;
@@ -246,6 +259,67 @@ const Form = ({ navigation }) => {
         const ref = firebase.firestore().collection("userData").doc().id;
         ear = await uploadImage(earRing.uri, "userData/" + ref);
       }
+
+      if (secondAppointmentImage1) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send1 = await uploadImage(
+          secondAppointmentImage1.uri,
+          "userData/" + ref
+        );
+      }
+      if (secondAppointmentImage2) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send2 = await uploadImage(
+          secondAppointmentImage2.uri,
+          "userData/" + ref
+        );
+      }
+
+      if (secondAppointmentImage3) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send3 = await uploadImage(
+          secondAppointmentImage3.uri,
+          "userData/" + ref
+        );
+      }
+      if (secondAppointmentImage4) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send4 = await uploadImage(
+          secondAppointmentImage4.uri,
+          "userData/" + ref
+        );
+      }
+
+      if (secondAppointmentImage5) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send5 = await uploadImage(
+          secondAppointmentImage5.uri,
+          "userData/" + ref
+        );
+      }
+      if (secondAppointmentImage6) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send6 = await uploadImage(
+          secondAppointmentImage6.uri,
+          "userData/" + ref
+        );
+      }
+
+      if (secondAppointmentImage7) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send7 = await uploadImage(
+          secondAppointmentImage7.uri,
+          "userData/" + ref
+        );
+      }
+      if (secondAppointmentImage8) {
+        const ref = firebase.firestore().collection("userData").doc().id;
+        send8 = await uploadImage(
+          secondAppointmentImage8.uri,
+          "userData/" + ref
+        );
+      }
+
       console.log(url);
       var id = moment().format("YYY-MM-DD-HH:mm:ss");
       await firebase.firestore().collection("userData").doc(id).set({
@@ -276,6 +350,16 @@ const Form = ({ navigation }) => {
         remarks6: remark6,
         remarks7: remark7,
         remarks8: remark8,
+        secondImag1: send1,
+        secondImag1: send2,
+        secondImag1: send3,
+        secondImag1: send4,
+        secondImag1: send5,
+        secondImag1: send6,
+        secondImag1: send7,
+        secondImag1: send8,
+        seamStressComments: seamStressComments,
+        completedBeforeDate: completedBefore,
 
         veil: vl,
         camcom: cmcm,
@@ -289,6 +373,12 @@ const Form = ({ navigation }) => {
         description1: thirdDes1,
         description2: thirdDes2,
         description3: thirdDes3,
+
+        thirdAppointment1: thirdAppointment1,
+        thirdAppointment2: thirdAppointment2,
+        thirdAppointment3: thirdAppointment3,
+        thirdAppointment4: thirdAppointment4,
+        thirdAppointment5: thirdAppointment5,
 
         MUAName: muaName,
         moringTime: moringTime,
@@ -325,7 +415,7 @@ const Form = ({ navigation }) => {
     console.log("====================================");
     console.log("current time", currentDate);
     console.log("====================================");
-    if (timeOption == "fouthMoringTime") {
+    if (timeOption == "fourthMorningTime") {
       setMoringTime(moment().format("LT"));
     } else if (timeOption == "fouthReadyTime") {
       setreadyTime(moment(currentDate).format("LT"));
@@ -347,6 +437,8 @@ const Form = ({ navigation }) => {
       setCollectionFlowerOutfitTime(moment(currentDate).format("LT"));
     } else if (timeOption == "fifthVGMorningEndTime") {
       setvgMoringEndTime(moment(currentDate).format("LT"));
+    } else if (timeOption == "fourthMorningTime") {
+      setMoringTime(moment(currentDate).format("LT"));
     }
   };
 
@@ -388,6 +480,8 @@ const Form = ({ navigation }) => {
       setCollectionFlowerDate(moment(currentDate).format("YYYY-MM-DD"));
     } else if (option == "today_Date") {
       settodayDate(moment(currentDate).format("YYYY-MM-DD"));
+    } else if (option == "seamStressComments") {
+      setcompletedBefore(moment(currentDate).format("YYYY-MM-DD"));
     }
   };
   const showMode = (currentMode) => {
@@ -645,7 +739,6 @@ const Form = ({ navigation }) => {
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>2nd appointment</Text>
-
           <TouchableOpacity
             onPress={() => pickImage(setsecondAppointmentImage1)}
             style={styles.imageContainer}
@@ -847,6 +940,27 @@ const Form = ({ navigation }) => {
             label="Enter Remarks"
             title="Remarks8 "
           />
+
+          <TextInputCustomize
+            val={seamStressComments}
+            setval={setseamStressComments}
+            label=" Enter SeamStress Comments"
+            title="SeamStress Comments "
+          />
+          <TouchableOpacity
+            onPress={() => {
+              setShow(true);
+              setOption("seamStressComments");
+            }}
+          >
+            <TextInputCustomize
+              val={completedBefore}
+              setval={setcompletedBefore}
+              label="Select Collection outfit Date"
+              title="Select completed before Date"
+              editable={false}
+            />
+          </TouchableOpacity>
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>3rd appointment</Text>
@@ -917,7 +1031,7 @@ const Form = ({ navigation }) => {
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>Veil</Text>
-            {thirdAppointment1 ? (
+            {veil ? (
               <Image style={styles.imageBox} source={{ uri: veil.uri }} />
             ) : (
               <Image
@@ -931,7 +1045,7 @@ const Form = ({ navigation }) => {
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>CamCom</Text>
-            {thirdAppointment1 ? (
+            {camCom ? (
               <Image style={styles.imageBox} source={{ uri: camCom.uri }} />
             ) : (
               <Image
@@ -947,7 +1061,7 @@ const Form = ({ navigation }) => {
             <Text style={{ marginVertical: 5, color: "black" }}>
               Hair Piece
             </Text>
-            {thirdAppointment1 ? (
+            {hairPeace ? (
               <Image style={styles.imageBox} source={{ uri: hairPeace.uri }} />
             ) : (
               <Image
@@ -961,7 +1075,7 @@ const Form = ({ navigation }) => {
             style={styles.imageContainer}
           >
             <Text style={{ marginVertical: 5, color: "black" }}>Ear Ring</Text>
-            {thirdAppointment1 ? (
+            {earRing ? (
               <Image style={styles.imageBox} source={{ uri: earRing.uri }} />
             ) : (
               <Image
@@ -1115,7 +1229,7 @@ const Form = ({ navigation }) => {
               setval={setMoringTime}
               label="Enter Moring TIme"
               title="Morning Time"
-              disable={false}
+              editable={false}
             />
           </TouchableOpacity>
 
@@ -1165,7 +1279,7 @@ const Form = ({ navigation }) => {
           <TextInputCustomize
             val={photgrapherName}
             setval={setphotgrapherName}
-            label="name"
+            label=" photgrapher Name"
             title=" photgrapher Name"
           />
 
@@ -1178,7 +1292,7 @@ const Form = ({ navigation }) => {
             <TextInputCustomize
               val={photoStartTime}
               setval={setphotoStartTime}
-              label="time"
+              label="photo start time"
               title=" photo start time "
               editable={false}
             />
@@ -1193,7 +1307,7 @@ const Form = ({ navigation }) => {
             <TextInputCustomize
               val={photoEndTime}
               setval={setphotoEndTime}
-              label="time"
+              label="photo end time "
               title=" photo end time  "
               editable={false}
             />
@@ -1202,14 +1316,14 @@ const Form = ({ navigation }) => {
           <TextInputCustomize
             val={photoMoringVenue}
             setval={setphotoMoringVenue}
-            label="time"
+            label="photo  Moring Venue"
             title="photo  Moring Venue "
           />
 
           <TextInputCustomize
             val={photoEveningVenue}
             setval={setphotoEveningVenue}
-            label="time"
+            label="photo evening Venue"
             title="photo  Evening Venue "
           />
         </View>
@@ -1309,66 +1423,4 @@ const Form = ({ navigation }) => {
     </View>
   );
 };
-
 export default Form;
-
-const styles = StyleSheet.create({
-  conatiner: {
-    flex: 9,
-    //justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  headingText: {
-    paddingTop: 5,
-    textAlign: "center",
-    color: "black",
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  form: {
-    backgroundColor: "#e6e6e6",
-    borderRadius: 20,
-  },
-  form_format: {
-    width: "100%",
-  },
-  imageContainer: {
-    alignItems: "center",
-    marginTop: 5,
-  },
-  input: {
-    backgroundColor: "#CDD4EA",
-    padding: 5,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#0E40D7",
-    margin: 5,
-    textAlign: "center",
-    fontSize: 16,
-  },
-  imageBox: {
-    width: 150,
-    height: 150,
-    borderRadius: 20,
-    resizeMode: "cover",
-  },
-  allimageContainer: {
-    flexDirection: "row",
-    flexGrow: 1,
-    justifyContent: "space-evenly",
-    flexWrap: "wrap",
-  },
-  firstAppointmentImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    resizeMode: "cover",
-  },
-  firstAppointmentIMageBox: {
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 10,
-  },
-});

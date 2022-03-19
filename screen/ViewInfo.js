@@ -25,8 +25,6 @@ const ViewInfo = ({ navigation, route }) => {
 
   const setAllData = () => {
     var data = route?.params?.item;
-    setgroomPhone(data?.groomPhone);
-    setBridephone(data?.bridePhone);
     setInvoice(data?.invoice);
     setbride(data?.brideNamr);
     setgroom(data?.groomName);
@@ -59,14 +57,11 @@ const ViewInfo = ({ navigation, route }) => {
     setremark6(data?.remarks6);
     setremark7(data?.remarks7);
     setremark8(data?.remarks8);
-    setremarksDate();
-    setthirdAppointment1();
-    setthirdAppointment2();
-    setthirdAppointment3();
-    setthirdAppointment4();
-    setthirdAppointment5();
-    setshowWeddingDate();
-    setshowRemarksDate();
+    setthirdAppointment1(data?.thirdAppointment1);
+    setthirdAppointment2(data?.thirdAppointment2);
+    setthirdAppointment3(data?.thirdAppointment3);
+    setthirdAppointment4(data?.thirdAppointment4);
+    setthirdAppointment5(data?.thirdAppointment5);
     setVeil({ uri: data?.veil });
     setcamCom({ uri: data?.camcom });
     setEarRing({ uri: data?.earRing });
@@ -78,13 +73,13 @@ const ViewInfo = ({ navigation, route }) => {
     setCollectionFlowerTime(data?.collectionFlowerTime);
 
     setvideographerName(data?.VideoGrapherName);
-    setvgStartTime(data?.VideoGrapherStartTime);
-    setvgEndTime(data?.VideoGrapherEndTime);
     setvgMorningVenue(data?.VideoGrapherMorningVenue);
     setvgEveningVenue(data?.VideoGrapherEveningVenue);
     setvgHours(data?.VideoGrapherTotalTime);
-    setVGEveningEndTime(data?.VideoGrapherEveningStartTime);
-    seVGEveningStartTime(data?.VideoGrapherEveningEndTime);
+    setvgMorningStartTime(data?.VideoGrapherMorningStartTime);
+    setvgMoringEndTime(data?.VideoGrapherMoringEndTime);
+    seVGtEveningStartTime(data?.VideoGrapherEveningStartTime);
+    setVGEveningEndTime(data?.VideoGrapherEveningEndTime);
 
     setmuaName(data?.MUAName);
     setMoringTime(data?.moringTime);
@@ -94,26 +89,41 @@ const ViewInfo = ({ navigation, route }) => {
     setphotoEndTime(data?.photoEnDTime);
     setphotoMoringVenue(data?.photoMorningVenue);
     setphotoEveningVenue(data?.photoEveingVenue);
-    setvgEveningTime(data?.VideoGraphyEveningTime);
-    setvgEveningTime(data?.VideoGraphyEveningTime);
-    setCollectionFlowerOutfitDate(data?.collectionOutfitDate);
-    setCollectionFlowerDate(data?.collectionFlowerDate);
   };
   const [isloading, setisloading] = useState(false);
+  const [showImageModal, setshowImageModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
-  const [showImageModal, setshowImageModal] = useState(false);
-  const [tempImage, settempImage] = useState("");
+  const [option, setOption] = useState("wedding_date");
+  const [timeOption, settimeOption] = useState("fifthVGEndTime");
+  const [todayDate, settodayDate] = useState(moment().format("YYYY-MM-DD"));
+  const [pickerDates, setPickerDates] = React.useState({
+    wedding_date: moment().format("YYYY-MM-DD"),
+    mor_date: moment().format("YYYY-MM-DD"),
+    collectionOutfit: moment().format("YYYY-MM-DD"),
+    collectionflowerDate: moment().format("YYYY-MM-DD"),
+  });
+  const [timePicker, setTimePicker] = React.useState({
+    fouthMoringTime: moment().format("HH:mm:ss"),
+    fouthReadyTime: moment().format("HH:mm:ss"),
+    foutafterNoonStartTime: moment().format("HH:mm:ss"),
+    fouthPhotoStartTime: moment().format("HH:mm:ss"),
+    fouthPhotoEndTime: moment().format("HH:mm:ss"),
+
+    fifthVGStartTime: moment().format("HH:mm:ss"),
+    fifthVGEndTime: moment().format("HH:mm:ss"),
+    fifthVGEveningTime: moment().format("HH:mm:ss"),
+  });
 
   const [invoice, setInvoice] = useState("");
   const [bride, setbride] = useState("");
   const [groom, setgroom] = useState("");
   const [weddingDate, setweddingDate] = useState(new Date());
-  const [phone, setphone] = useState("");
   const [bridephone, setBridephone] = useState("");
   const [groomPhone, setgroomPhone] = useState("");
+  const [tempImage, settempImage] = useState();
 
   /////////////////////////////////first
   const [firstImage1, setfirstImage1] = useState("");
@@ -145,6 +155,10 @@ const ViewInfo = ({ navigation, route }) => {
   const [remark7, setremark7] = useState("");
   const [remark8, setremark8] = useState("");
   const [remarksDate, setremarksDate] = useState(new Date());
+  const [seamStressComments, setseamStressComments] = useState("");
+  const [completedBefore, setcompletedBefore] = useState(
+    moment().format("YYYY-MM-DD")
+  );
 
   ///////////////////////////////////3rd appoint ment
   const [veil, setVeil] = useState("");
@@ -191,16 +205,15 @@ const ViewInfo = ({ navigation, route }) => {
   const [photoEveningVenue, setphotoEveningVenue] = useState("");
 
   //////////////////////////////////////5th appointment
-
   const [videographerName, setvideographerName] = useState("");
-  const [vgStartTime, setvgStartTime] = useState("");
+  const [vgMorningStartTime, setvgMorningStartTime] = useState("");
+  const [vgMoringEndTime, setvgMoringEndTime] = useState("");
   const [vgEndTime, setvgEndTime] = useState("");
   const [vgMorningVenue, setvgMorningVenue] = useState("");
   const [vgEveningVenue, setvgEveningVenue] = useState("");
   const [vgHours, setvgHours] = useState("");
-  const [vgEveningTime, setvgEveningTime] = useState("");
   const [vgEveningEndTime, setVGEveningEndTime] = useState("");
-  const [vgEveningStartTime, seVGEveningStartTime] = useState("");
+  const [vgEveningStartTime, seVGtEveningStartTime] = useState("");
 
   ///////////////////////////// show date picker
   const [showWeddingDate, setshowWeddingDate] = useState(false);
@@ -701,17 +714,14 @@ const ViewInfo = ({ navigation, route }) => {
               settempImage(veil.uri);
               setshowImageModal(true);
             }}
-            style={styles.firstAppointmentIMageBox}
+            style={styles.imageContainer}
           >
             {veil ? (
-              <Image
-                style={styles.firstAppointmentImage}
-                source={{ uri: veil.uri }}
-              />
+              <Image style={styles.imageBox} source={{ uri: veil.uri }} />
             ) : (
               <Image
                 source={require("../assets/logo.png")}
-                style={styles.firstAppointmentImage}
+                style={styles.imageBox}
               />
             )}
           </TouchableOpacity>
@@ -720,17 +730,14 @@ const ViewInfo = ({ navigation, route }) => {
               settempImage(camCom.uri);
               setshowImageModal(true);
             }}
-            style={styles.firstAppointmentIMageBox}
+            style={styles.imageContainer}
           >
             {camCom ? (
-              <Image
-                style={styles.firstAppointmentImage}
-                source={{ uri: camCom.uri }}
-              />
+              <Image style={styles.imageBox} source={{ uri: camCom.uri }} />
             ) : (
               <Image
                 source={require("../assets/logo.png")}
-                style={styles.firstAppointmentImage}
+                style={styles.imageBox}
               />
             )}
           </TouchableOpacity>
@@ -739,17 +746,14 @@ const ViewInfo = ({ navigation, route }) => {
               settempImage(hairPeace.uri);
               setshowImageModal(true);
             }}
-            style={styles.firstAppointmentIMageBox}
+            style={styles.imageContainer}
           >
             {hairPeace ? (
-              <Image
-                style={styles.firstAppointmentImage}
-                source={{ uri: hairPeace.uri }}
-              />
+              <Image style={styles.imageBox} source={{ uri: hairPeace.uri }} />
             ) : (
               <Image
                 source={require("../assets/logo.png")}
-                style={styles.firstAppointmentImage}
+                style={styles.imageBox}
               />
             )}
           </TouchableOpacity>
@@ -758,21 +762,17 @@ const ViewInfo = ({ navigation, route }) => {
               settempImage(earRing.uri);
               setshowImageModal(true);
             }}
-            style={styles.firstAppointmentIMageBox}
+            style={styles.firstAppoiimageContainerntmentIMageBox}
           >
             {earRing ? (
-              <Image
-                style={styles.firstAppointmentImage}
-                source={{ uri: earRing.uri }}
-              />
+              <Image style={styles.imageBox} source={{ uri: earRing.uri }} />
             ) : (
               <Image
                 source={require("../assets/logo.png")}
-                style={styles.firstAppointmentImage}
+                style={styles.imageBox}
               />
             )}
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.imageContainer}>
             <Text style={{ marginVertical: 5, color: "black" }}>Banquet</Text>
             {thirdAppointment1 ? (
@@ -891,7 +891,6 @@ const ViewInfo = ({ navigation, route }) => {
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>4rd appointment Photography</Text>
-
           <TextInputCustomize
             val={muaName}
             setval={setmuaName}
@@ -903,7 +902,7 @@ const ViewInfo = ({ navigation, route }) => {
             val={moringTime}
             setval={setMoringTime}
             label="Enter Moring TIme"
-            title="MoringTime"
+            title="Morning Time"
             editable={false}
           />
           <TextInputCustomize
@@ -920,7 +919,6 @@ const ViewInfo = ({ navigation, route }) => {
             title="after Noon Start Time "
             editable={false}
           />
-
           <TextInputCustomize
             val={readyTime}
             setval={setreadyTime}
@@ -935,50 +933,44 @@ const ViewInfo = ({ navigation, route }) => {
             title="Venue "
             editable={false}
           />
-
           <TextInputCustomize
             val={photgrapherName}
             setval={setphotgrapherName}
-            label="name"
+            label=" photgrapher Name"
             title=" photgrapher Name"
             editable={false}
           />
-
           <TextInputCustomize
             val={photoStartTime}
             setval={setphotoStartTime}
-            label="time"
+            label="photo start time"
             title=" photo start time "
             editable={false}
           />
-
           <TextInputCustomize
             val={photoEndTime}
             setval={setphotoEndTime}
-            label="time"
+            label="photo end time "
             title=" photo end time  "
             editable={false}
           />
-
           <TextInputCustomize
             val={photoMoringVenue}
             setval={setphotoMoringVenue}
-            label="time"
+            label="photo  Moring Venue"
             title="photo  Moring Venue "
             editable={false}
           />
-
           <TextInputCustomize
             val={photoEveningVenue}
             setval={setphotoEveningVenue}
-            label="time"
+            label="photo evening Venue"
             title="photo  Evening Venue "
             editable={false}
           />
         </View>
         <View style={{ ...styles.form, marginTop: 30 }}>
           <Text style={styles.headingText}>5th appointment VideoGraphy</Text>
-
           <TextInputCustomize
             val={videographerName}
             setval={setvideographerName}
@@ -987,56 +979,55 @@ const ViewInfo = ({ navigation, route }) => {
             editable={false}
           />
           <TextInputCustomize
+            val={vgMorningStartTime}
+            setval={setvgMorningStartTime}
+            label="VideoGraphy Morning Start Time"
+            title="VideoGraphy Morning Start Time"
+            editable={false}
+          />
+          <TextInputCustomize
+            val={vgMoringEndTime}
+            setval={setvgMoringEndTime}
+            label="VideoGraphy Morning End  Time"
+            title="VideoGraphy Morning End Time"
+            editable={false}
+          />
+          <TextInputCustomize
             val={vgMorningVenue}
             setval={setvgMorningVenue}
-            label="VideoGraphy moring venue "
-            title="VideoGraphy moring venue "
-            editable={false}
-          />
-          <TextInputCustomize
-            val={vgStartTime}
-            setval={setvgStartTime}
-            label="VideoGraphy Morning start Time"
-            title="VideoGraphy Morning start Time"
-            editable={false}
-          />
-          <TextInputCustomize
-            val={vgEndTime}
-            setval={vgEndTime}
-            label="VideoGraphy Morning end  Time"
-            title="VideoGraphy Morning end Time"
-            editable={false}
-          />
-
-          <TextInputCustomize
-            val={vgEveningVenue}
-            setval={vgEveningVenue}
-            label="VideoGraphy Evening venue "
-            title="VideoGraphy EVening venue "
+            label="VideoGraphy morning venue "
+            title="VideoGraphy Morning venue "
             editable={false}
           />
           <TextInputCustomize
             val={vgEveningStartTime}
-            setval={seVGEveningStartTime}
-            label="VideoGraphy evening Start time "
-            title="VideoGraphy evening Start time  "
+            setval={seVGtEveningStartTime}
+            label="VideoGraphy Evening Start Time"
+            title="VideoGraphy Evening Start Time"
             editable={false}
           />
           <TextInputCustomize
             val={vgEveningEndTime}
             setval={setVGEveningEndTime}
-            label="VideoGraphy evening End time "
-            title="VideoGraphy evening End time  "
+            label="VideoGraphy Evening End  Time"
+            title="VideoGraphy Evening End Time"
             editable={false}
           />
 
           <TextInputCustomize
+            val={vgEveningVenue}
+            setval={setvgEveningVenue}
+            editable={false}
+            label="VideoGraphy evening venue "
+            title="VideoGraphy Evening venue "
+          />
+          <TextInputCustomize
             val={vgHours}
             setval={setvgHours}
+            editable={false}
             label="VideoGraphy hours"
             title="VideoGraphy hours"
             type="number-pad"
-            editable={false}
           />
         </View>
         <Button
