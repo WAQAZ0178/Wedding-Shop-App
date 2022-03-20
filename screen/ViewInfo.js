@@ -32,23 +32,94 @@ const ViewInfo = ({ navigation, route }) => {
     setgroomPhone(data?.groomPhone);
     setBridephone(data?.bridePhone);
     setImage({ uri: data?.image });
-    setfirstImage1({ uri: data?.firstImage_1 });
-    setfirstImage2({ uri: data?.firstImage_2 });
-    setfirstImage3({ uri: data?.firstImage_3 });
-    setfirstImage4({ uri: data?.firstImage_4 });
-    setfirstImage5({ uri: data?.firstImage_5 });
-    setfirstImage6({ uri: data?.firstImage_6 });
-    setfirstImage7({ uri: data?.firstImage_7 });
-    setfirstImage8({ uri: data?.firstImage_8 });
-    setfirstImage9({ uri: data?.firstImage_9 });
-    setsecondAppointmentImage1({ uri: data?.firstImage_1 });
-    setsecondAppointmentImage2({ uri: data?.firstImage_2 });
-    setsecondAppointmentImage3({ uri: data?.firstImage_3 });
-    setsecondAppointmentImage4({ uri: data?.firstImage_4 });
-    setsecondAppointmentImage5({ uri: data?.firstImage_5 });
-    setsecondAppointmentImage6({ uri: data?.firstImage_6 });
-    setsecondAppointmentImage7({ uri: data?.firstImage_7 });
-    setsecondAppointmentImage8({ uri: data?.firstImage_8 });
+
+    if (data?.firstImage_1) {
+      setfirstImage1({ uri: data?.firstImage_1 });
+    } else {
+      setfirstImage1("");
+    }
+    if (data?.firstImage_2) {
+      setfirstImage1({ uri: data?.firstImage_2 });
+    } else {
+      setfirstImage2("");
+    }
+    if (data?.firstImage_3) {
+      setfirstImage3({ uri: data?.firstImage_3 });
+    } else {
+      setfirstImage3("");
+    }
+    if (data?.firstImage_4) {
+      setfirstImage4({ uri: data?.firstImage_4 });
+    } else {
+      setfirstImage4("");
+    }
+    if (data?.firstImage_5) {
+      setfirstImage5({ uri: data?.firstImage_5 });
+    } else {
+      setfirstImage5("");
+    }
+    if (data?.firstImage_6) {
+      setfirstImage6({ uri: data?.firstImage_6 });
+    } else {
+      setfirstImage6("");
+    }
+    if (data?.firstImage_7) {
+      setfirstImage7({ uri: data?.firstImage_7 });
+    } else {
+      setfirstImage7("");
+    }
+    if (data?.firstImage_8) {
+      setfirstImage8({ uri: data?.firstImage_8 });
+    } else {
+      setfirstImage8("");
+    }
+    if (data?.firstImage_9) {
+      setfirstImage9({ uri: data?.firstImage_9 });
+    } else {
+      setfirstImage9("");
+    }
+    ////////////////////////////////////////////////////////
+    if (data?.secondImag1) {
+      setsecondAppointmentImage1({ uri: data?.secondImag1 });
+    } else {
+      setsecondAppointmentImage1("");
+    }
+    if (data?.secondImag2) {
+      setsecondAppointmentImage2({ uri: data?.secondImag2 });
+    } else {
+      setsecondAppointmentImage2("");
+    }
+    if (data?.secondImag3) {
+      setsecondAppointmentImage3({ uri: data?.secondImag3 });
+    } else {
+      setsecondAppointmentImage3("");
+    }
+    if (data?.secondImag4) {
+      setsecondAppointmentImage4({ uri: data?.secondImag4 });
+    } else {
+      setsecondAppointmentImage4("");
+    }
+    if (data?.secondImag5) {
+      setsecondAppointmentImage5({ uri: data?.secondImag5 });
+    } else {
+      setsecondAppointmentImage5("");
+    }
+    if (data?.secondImag6) {
+      setsecondAppointmentImage6({ uri: data?.secondImag6 });
+    } else {
+      setsecondAppointmentImage6("");
+    }
+    if (data?.secondImag7) {
+      setsecondAppointmentImage7({ uri: data?.secondImag7 });
+    } else {
+      setsecondAppointmentImage7("");
+    }
+    if (data?.secondImag8) {
+      setsecondAppointmentImage8({ uri: data?.secondImag8 });
+    } else {
+      setsecondAppointmentImage8("");
+    }
+
     setremark1(data?.remarks1);
     setremark2(data?.remarks2);
     setremark3(data?.remarks3);
@@ -62,10 +133,29 @@ const ViewInfo = ({ navigation, route }) => {
     setthirdAppointment3(data?.thirdAppointment3);
     setthirdAppointment4(data?.thirdAppointment4);
     setthirdAppointment5(data?.thirdAppointment5);
-    setVeil({ uri: data?.veil });
-    setcamCom({ uri: data?.camcom });
-    setEarRing({ uri: data?.earRing });
-    setHairPeace({ uri: data?.hairPeace });
+
+    if (data?.veil) {
+      setVeil({ uri: data?.veil });
+    } else {
+      setVeil("");
+    }
+    if (data?.camcom) {
+      setVeil({ uri: data?.camcom });
+    } else {
+      setcamCom("");
+    }
+
+    if (data?.earRing) {
+      setEarRing({ uri: data?.earRing });
+    } else {
+      setEarRing("");
+    }
+    if (data?.hairPeace) {
+      setHairPeace({ uri: data?.hairPeace });
+    } else {
+      setHairPeace("");
+    }
+
     setflowerDes(data?.flowerDescription);
     setCollectionFlowerOutfitDate(data?.collectionOutfitDate);
     setCollectionFlowerDate(data?.collectionFlowerDate);
@@ -275,7 +365,7 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(image.uri);
+              image ? settempImage(image.uri) : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -298,7 +388,7 @@ const ViewInfo = ({ navigation, route }) => {
           <View style={styles.allimageContainer}>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage1.uri);
+                firstImage1 ? settempImage(firstImage1.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -317,7 +407,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage2.uri);
+                firstImage2 ? settempImage(firstImage2.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -336,7 +426,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage3.uri);
+                firstImage3 ? settempImage(firstImage3.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -355,7 +445,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage4.uri);
+                firstImage4 ? settempImage(firstImage4.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -374,7 +464,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage5.uri);
+                firstImage5 ? settempImage(firstImage5.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -393,7 +483,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage6.uri);
+                firstImage6 ? settempImage(firstImage6.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -412,7 +502,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage7.uri);
+                firstImage7 ? settempImage(firstImage7.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -431,7 +521,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage8.uri);
+                firstImage8 ? settempImage(firstImage8.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -450,7 +540,7 @@ const ViewInfo = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                settempImage(firstImage9.uri);
+                firstImage9 ? settempImage(firstImage9.uri) : settempImage("");
                 setshowImageModal(true);
               }}
               style={styles.firstAppointmentIMageBox}
@@ -474,7 +564,9 @@ const ViewInfo = ({ navigation, route }) => {
 
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage1.uri);
+              secondAppointmentImage1
+                ? settempImage(secondAppointmentImage1.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -496,7 +588,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage2.uri);
+              secondAppointmentImage2
+                ? settempImage(secondAppointmentImage2.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -518,7 +612,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage3.uri);
+              secondAppointmentImage3
+                ? settempImage(secondAppointmentImage3.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -540,7 +636,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage4.uri);
+              secondAppointmentImage4
+                ? settempImage(secondAppointmentImage4.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -560,10 +658,11 @@ const ViewInfo = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage5.uri);
+              secondAppointmentImage5
+                ? settempImage(secondAppointmentImage5.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -585,7 +684,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage6.uri);
+              secondAppointmentImage6
+                ? settempImage(secondAppointmentImage6.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -607,7 +708,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage7.uri);
+              secondAppointmentImage7
+                ? settempImage(secondAppointmentImage7.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -629,7 +732,9 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(secondAppointmentImage8.uri);
+              secondAppointmentImage8
+                ? settempImage(secondAppointmentImage8.uri)
+                : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
@@ -711,11 +816,12 @@ const ViewInfo = ({ navigation, route }) => {
 
           <TouchableOpacity
             onPress={() => {
-              settempImage(veil.uri);
+              veil ? settempImage(veil.uri) : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
           >
+            <Text style={{ marginVertical: 5, color: "black" }}>Veil</Text>
             {veil ? (
               <Image style={styles.imageBox} source={{ uri: veil.uri }} />
             ) : (
@@ -727,11 +833,12 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(camCom.uri);
+              camCom ? settempImage(camCom.uri) : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
           >
+            <Text style={{ marginVertical: 5, color: "black" }}>CamCom</Text>
             {camCom ? (
               <Image style={styles.imageBox} source={{ uri: camCom.uri }} />
             ) : (
@@ -743,11 +850,12 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(hairPeace.uri);
+              hairPeace ? settempImage(hairPeace.uri) : settempImage("");
               setshowImageModal(true);
             }}
             style={styles.imageContainer}
           >
+            <Text style={{ marginVertical: 5, color: "black" }}>HairPEace</Text>
             {hairPeace ? (
               <Image style={styles.imageBox} source={{ uri: hairPeace.uri }} />
             ) : (
@@ -759,11 +867,12 @@ const ViewInfo = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              settempImage(earRing.uri);
+              earRing ? settempImage(earRing.uri) : settempImage("");
               setshowImageModal(true);
             }}
-            style={styles.firstAppoiimageContainerntmentIMageBox}
+            style={styles.imageContainer}
           >
+            <Text style={{ marginVertical: 5, color: "black" }}>Earing</Text>
             {earRing ? (
               <Image style={styles.imageBox} source={{ uri: earRing.uri }} />
             ) : (
@@ -773,7 +882,15 @@ const ViewInfo = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              thirdAppointment1
+                ? settempImage(eathirdAppointment1rRing.uri)
+                : settempImage("");
+              setshowImageModal(true);
+            }}
+            style={styles.imageContainer}
+          >
             <Text style={{ marginVertical: 5, color: "black" }}>Banquet</Text>
             {thirdAppointment1 ? (
               <Image
@@ -801,7 +918,15 @@ const ViewInfo = ({ navigation, route }) => {
             title="description "
             editable={false}
           />
-          <TouchableOpacity style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              thirdAppointment2
+                ? settempImage(thirdAppointment2.uri)
+                : settempImage("");
+              setshowImageModal(true);
+            }}
+            style={styles.imageContainer}
+          >
             <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment2 ? (
               <Image
@@ -815,7 +940,15 @@ const ViewInfo = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              thirdAppointment3
+                ? settempImage(thirdAppointment3.uri)
+                : settempImage("");
+              setshowImageModal(true);
+            }}
+            style={styles.imageContainer}
+          >
             <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment3 ? (
               <Image
@@ -829,7 +962,15 @@ const ViewInfo = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              thirdAppointment4
+                ? settempImage(thirdAppointment4.uri)
+                : settempImage("");
+              setshowImageModal(true);
+            }}
+            style={styles.imageContainer}
+          >
             <Text style={{ marginVertical: 5, color: "black" }}>Coursage</Text>
             {thirdAppointment4 ? (
               <Image
@@ -843,7 +984,15 @@ const ViewInfo = ({ navigation, route }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              thirdAppointment5
+                ? settempImage(thirdAppointment5.uri)
+                : settempImage("");
+              setshowImageModal(true);
+            }}
+            style={styles.imageContainer}
+          >
             <Text style={{ marginVertical: 5, color: "black" }}>
               Wedding car design
             </Text>
@@ -880,7 +1029,6 @@ const ViewInfo = ({ navigation, route }) => {
             title="Select Collection flower time"
             editable={false}
           />
-
           <TextInputCustomize
             val={collectionFlowerOutfitTime}
             setval={setCollectionFlowerOutfitTime}
